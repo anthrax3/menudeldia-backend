@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -20,6 +21,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <TypeScriptToolsVersion>1.0</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -115,17 +117,174 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\HttpExtensions.cs" />
+    <Compile Include="Models\MessageModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap\css\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap\css\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap\css\bootstrap.css" />
+    <Content Include="Content\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\bootstrap\js\bootstrap.js" />
+    <Content Include="Content\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Content\bootstrap\js\npm.js" />
+    <Content Include="Content\css\animate.css" />
+    <Content Include="Content\css\buttons.css" />
+    <Content Include="Content\css\form-elements.css" />
+    <Content Include="Content\css\magnific-popup.css" />
+    <Content Include="Content\css\media-queries.css" />
+    <Content Include="Content\css\style.css" />
+    <Content Include="Content\font-awesome\css\font-awesome.css" />
+    <Content Include="Content\font-awesome\css\font-awesome.min.css" />
+    <Content Include="Content\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\ico\apple-touch-icon-114-precomposed.png" />
+    <Content Include="Content\ico\apple-touch-icon-144-precomposed.png" />
+    <Content Include="Content\ico\apple-touch-icon-57-precomposed.png" />
+    <Content Include="Content\ico\apple-touch-icon-72-precomposed.png" />
+    <Content Include="Content\ico\favicon.png" />
+    <Content Include="Content\ico\favicon_ld.png" />
+    <Content Include="Content\ico\shareicon.png" />
+    <Content Include="Content\ico\smallicon.png" />
+    <Content Include="Content\img\ajax-loader.gif" />
+    <Content Include="Content\img\backgrounds\1%402x.jpg" />
+    <Content Include="Content\img\backgrounds\1.jpg" />
+    <Content Include="Content\img\backgrounds\2%402x.jpg" />
+    <Content Include="Content\img\backgrounds\2.jpg" />
+    <Content Include="Content\img\iphone-1%402x.png" />
+    <Content Include="Content\img\iphone-1.png" />
+    <Content Include="Content\img\iphone-1_old.png" />
+    <Content Include="Content\img\iphone-2%402x.png" />
+    <Content Include="Content\img\iphone-2.png" />
+    <Content Include="Content\img\iphone-3%402x.png" />
+    <Content Include="Content\img\iphone-3.png" />
+    <Content Include="Content\img\logo%402x.png" />
+    <Content Include="Content\img\logo.png" />
+    <Content Include="Content\img\screenshots\1.jpg" />
+    <Content Include="Content\img\screenshots\2.jpg" />
+    <Content Include="Content\img\screenshots\3.jpg" />
+    <Content Include="Content\img\smallicon.png" />
+    <Content Include="Content\img\team\1.jpg" />
+    <Content Include="Content\img\team\2.jpg" />
+    <Content Include="Content\img\team\3.jpg" />
+    <Content Include="Content\img\testimonials\1.jpg" />
+    <Content Include="Content\img\testimonials\2.jpg" />
+    <Content Include="Content\img\testimonials\3.jpg" />
+    <Content Include="Content\js\bootstrap-hover-dropdown.js" />
+    <Content Include="Content\js\bootstrap-hover-dropdown.min.js" />
+    <Content Include="Content\js\jquery-1.11.1.js" />
+    <Content Include="Content\js\jquery-1.11.1.min.js" />
+    <Content Include="Content\js\jquery.backstretch.js" />
+    <Content Include="Content\js\jquery.backstretch.min.js" />
+    <Content Include="Content\js\jquery.magnific-popup.js" />
+    <Content Include="Content\js\jquery.magnific-popup.min.js" />
+    <Content Include="Content\js\placeholder.js" />
+    <Content Include="Content\js\retina-1.1.0.js" />
+    <Content Include="Content\js\retina-1.1.0.min.js" />
+    <Content Include="Content\js\scripts.js" />
+    <Content Include="Content\js\wow.js" />
+    <Content Include="Content\js\wow.min.js" />
+    <Content Include="Content\twitter\jquery.tweet.js" />
+    <Content Include="Content\twitter\jquery.tweet.min.js" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\20x20\android.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\20x20\apple.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\20x20\behance.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\20x20\blogger.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\20x20\deviantart.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\20x20\digg-1.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\20x20\dribbble.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\20x20\email-1.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\20x20\facebook.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\20x20\feedburner-1.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\20x20\flickr-2.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\20x20\github-1.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\20x20\google-plus-1.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\20x20\instagram-1.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\20x20\linkedin.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\20x20\myspace-2.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\20x20\pinterest.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\20x20\rss.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\20x20\skype.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\20x20\stumbleupon.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\20x20\tumblr.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\20x20\twitter.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\20x20\vimeo.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\20x20\wordpress.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\20x20\youtube-1.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\40x40\android.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\40x40\apple.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\40x40\behance.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\40x40\blogger.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\40x40\deviantart.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\40x40\digg-1.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\40x40\dribbble.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\40x40\email-1.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\40x40\facebook.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\40x40\feedburner-1.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\40x40\flickr-2.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\40x40\github-1.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\40x40\google-plus-1.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\40x40\instagram-1.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\40x40\linkedin.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\40x40\myspace-2.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\40x40\pinterest.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\40x40\rss.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\40x40\skype.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\40x40\stumbleupon.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\40x40\tumblr.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\40x40\twitter.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\40x40\vimeo.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\40x40\wordpress.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-bg-images\40x40\youtube-1.png" />
+    <Content Include="Content\ultimate-flat-social-icons\ultm-css\ultm.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\bootstrap\css\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap\css\bootstrap.css.map" />
+    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="Content\font-awesome\less\bordered-pulled.less" />
+    <Content Include="Content\font-awesome\less\core.less" />
+    <Content Include="Content\font-awesome\less\fixed-width.less" />
+    <Content Include="Content\font-awesome\less\font-awesome.less" />
+    <Content Include="Content\font-awesome\less\icons.less" />
+    <Content Include="Content\font-awesome\less\larger.less" />
+    <Content Include="Content\font-awesome\less\list.less" />
+    <Content Include="Content\font-awesome\less\mixins.less" />
+    <Content Include="Content\font-awesome\less\path.less" />
+    <Content Include="Content\font-awesome\less\rotated-flipped.less" />
+    <Content Include="Content\font-awesome\less\spinning.less" />
+    <Content Include="Content\font-awesome\less\stacked.less" />
+    <Content Include="Content\font-awesome\less\variables.less" />
+    <Content Include="Content\font-awesome\scss\font-awesome.scss" />
+    <Content Include="Content\font-awesome\scss\_bordered-pulled.scss" />
+    <Content Include="Content\font-awesome\scss\_core.scss" />
+    <Content Include="Content\font-awesome\scss\_fixed-width.scss" />
+    <Content Include="Content\font-awesome\scss\_icons.scss" />
+    <Content Include="Content\font-awesome\scss\_larger.scss" />
+    <Content Include="Content\font-awesome\scss\_list.scss" />
+    <Content Include="Content\font-awesome\scss\_mixins.scss" />
+    <Content Include="Content\font-awesome\scss\_path.scss" />
+    <Content Include="Content\font-awesome\scss\_rotated-flipped.scss" />
+    <Content Include="Content\font-awesome\scss\_spinning.scss" />
+    <Content Include="Content\font-awesome\scss\_stacked.scss" />
+    <Content Include="Content\font-awesome\scss\_variables.scss" />
+    <Content Include="Content\twitter\index.php" />
+    <Content Include="Content\twitter\lib\tmhOAuth.php" />
+    <Content Include="Content\twitter\lib\tmhUtilities.php" />
+    <None Include="Scripts\jquery-1.10.2-vsdoc.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -137,7 +296,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\_references.js" />
+    <None Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -145,31 +304,28 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
-    <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">

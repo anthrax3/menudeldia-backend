@@ -1,31 +1,351 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
+﻿@{Layout = null;}
+@model MenuDelDia.Site.Models.MessageModel
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+<!DOCTYPE html>
+<html lang="en">
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:url" content="http://menudeldia.uy" />
+    <meta property="og:title" content="Menu del dia" />
+    <meta property="og:image" content="http://menudeldia.uy/Content/img/smallicon.png" />
+    <meta property="og:description" content="Menú del día te ofrece la forma más rápida de encontar los platos del día cerca de tu ubicación. Es ideal para decidir el almuerzo en la oficina, evitándote la necesidad de llamar para ver qué hay o mirar los 30 folletos de los locales de la zona!" />
+    <meta property="og:site_name" content="Menu del dia" />
+
+    <title>Menu Del Dia</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,300,100,100italic,300italic,400italic,700,700italic">
+    <link rel="stylesheet" href="/Content/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/Content/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/Content/css/animate.css">
+    <link rel="stylesheet" href="/Content/css/magnific-popup.css">
+    <link rel="stylesheet" href="/Content/ultimate-flat-social-icons/ultm-css/ultm.css">
+    <link rel="stylesheet" href="/Content/css/form-elements.css">
+    <link rel="stylesheet" href="/Content/css/buttons.css">
+    <link rel="stylesheet" href="/Content/css/style.css">
+    <link rel="stylesheet" href="/Content/css/media-queries.css">
+    @Scripts.Render("~/bundles/modernizr")
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Favicon and touch icons -->
+    <link rel="shortcut icon" href="/Content/ico/favicon.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/Content/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/Content/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/Content/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/Content/ico/apple-touch-icon-57-precomposed.png">
+    <script type="text/javascript">
+        var appInsights = window.appInsights || function (config) {
+            function s(config) { t[config] = function () { var i = arguments; t.queue.push(function () { t[config].apply(t, i) }) } } var t = { config: config }, r = document, f = window, e = "script", o = r.createElement(e), i, u; for (o.src = config.url || "//az416426.vo.msecnd.net/scripts/a/ai.0.js", r.getElementsByTagName(e)[0].parentNode.appendChild(o), t.cookie = r.cookie, t.queue = [], i = ["Event", "Exception", "Metric", "PageView", "Trace"]; i.length;) s("track" + i.pop()); return config.disableExceptionTracking || (i = "onerror", s("_" + i), u = f[i], f[i] = function (config, r, f, e, o) { var s = u && u(config, r, f, e, o); return s !== !0 && t["_" + i](config, r, f, e, o), s }), t
+        }({
+            instrumentationKey: "4ddb25e2-3a5d-42ef-8984-5ca88b3110c0"
+        });
+
+        window.appInsights = appInsights;
+        appInsights.trackPageView();
+    </script>
+</head>
+
+<body>
+
+    <!-- Top menu -->
+    <nav class="navbar navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#top-navbar-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Jesis - Responsive App Landing Page</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="top-navbar-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a class="scroll-link" href="#top-content">Descargar</a></li>
+                    <li><a class="scroll-link" href="#features">Caracter&iacute;sticas</a></li>
+                    <li><a class="scroll-link" href="#pricing">Tengo un local</a></li>
+                    <li><a class="scroll-link" href="#contact">Contactanos</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Top content -->
+    <div class="top-content">
+        <div class="inner-bg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-5 phone wow fadeInLeft">
+                        <img src="/Content/img/iphone-1.png" alt="">
+                    </div>
+                    <div class="col-sm-7 text wow fadeInUp">
+                        <h1>Encontr&aacute; tu almuerzo al instante.<br>Descarg&aacute; la app!</h1>
+                        <div class="description">
+                            Olvidate de mirar los folletos y llamar a los locales para preguntar qu&eacute; hay hoy.
+                            Us&aacute; la app y mir&aacute; los platos del d&iacute;a cerca de vos.
+                        </div>
+                        <div class="top-button">
+                            <a class="button-1" href="#">
+                                <span class="button-1-left"><i class="fa fa-mobile"></i></span>
+                                <span class="button-1-right">
+                                    <span class="button-1-right-top">Disponible en</span>
+                                    <span class="button-1-right-bottom">App Store</span>
+                                </span>
+                            </a>
+                            <a class="button-2" href="#">
+                                <span class="button-2-left"><i class="fa fa-android"></i></span>
+                                <span class="button-2-right">
+                                    <span class="button-2-right-top">Descarga para</span>
+                                    <span class="button-2-right-bottom">Android</span>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+
+    <!-- Features -->
+    <div class="features-container section-container" id="features">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 features section-description wow fadeIn">
+                    <h2>Caracter&iacute;sticas</h2>
+                    <p>
+                        Men&uacute; del d&iacute;a te ofrece la forma m&aacute;s r&aacute;pida de encontar los platos del d&iacute;a cerca
+                        de tu ubicaci&oacute;n. Es ideal para decidir el almuerzo en la oficina, evit&aacute;ndote la necesidad de llamar
+                        para ver qu&eacute; hay o mirar los 30 folletos de los locales de la zona!
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4 features-left wow fadeInUp">
+                    <div class="features-box">
+                        <div class="features-box-icon">
+                            <i class="fa fa-map-marker"></i>
+                        </div>
+                        <h3>Cerca de vos</h3>
+                        <p>
+                            Encontr&aacute; los platos del d&iacute;a cercanos a tu ubicaci&oacute;n.
+                            No camines tanto s&oacute;lo para ver qu&eacute; hay :)
+                        </p>
+                    </div>
+                    <div class="features-box">
+                        <div class="features-box-icon">
+                            <i class="fa fa-home"></i>
+                        </div>
+                        <h3>Locales de la zona</h3>
+                        <p>
+                            Conoc&eacute; los locales en tu zona y comunicate con ellos f&aacute;ilmente desde la aplicaci&oacute;n.
+                            Us&aacute; el mapa para ver la direcci&oacute;n exacta!
+                        </p>
+                    </div>
+                </div>
+                <div class="col-sm-4 features-center wow fadeInDown">
+                    <img src="/Content/img/iphone-3.png" alt="">
+                </div>
+                <div class="col-sm-4 features-right wow fadeInUp">
+                    <div class="features-box">
+                        <div class="features-box-icon">
+                            <i class="fa fa-info"></i>
+                        </div>
+                        <h3>Informaci&oacute;n de locales</h3>
+                        <p>
+                            Conoc&eacute; los horarios de los locales, formas de pago aceptadas, direcci&oacute;n y otra informaci&oacute;n.
+                        </p>
+                    </div>
+                    <div class="features-box">
+                        <div class="features-box-icon">
+                            <i class="fa fa-comment"></i>
+                        </div>
+                        <h3>¿No encontr&aacute;s un local que te gusta?</h3>
+                        <p>Envianos tu sugerencia desde la app y nos contactaremos con el local para que incluya su men&uacute; del d&iacute;a.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+
+    <!-- Pricing -->
+    <div class="pricing-container section-container" id="pricing">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 about-us section-description wow fadeIn">
+                    <h2>¿Ten&eacute;s un local de comidas?</h2>
+                    <p>
+                        Hac&eacute; llegar tu men&uacute; diario a much&iacute;simos usuarios! Desde nuestra web podr&aacute;s
+                        actualizar los platos del d&iacute;a, definir el men&uacute; semanal y mucho m&aacute;s.
+                    </p>
+                    <p>
+                        Eleg&iacute; el plan que creas conveniente para tu negocio.
+                        En cualquier momento podr&aacute;s cambiar a un plan superior con tan solo comunicarte con nosotros.
+                        <strong>Todos los planes incluyen 3 meses gratis.</strong>
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 about-us section-description wow fadeIn">
+                    <a href="http://localhost:10342" class="btn register">Registra tu negocio gratis</a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-4 about-us-box wow fadeInUp">
+                    <h3>Men&uacute; Starter</h3>
+                    <div class="pricing-box">
+                        <p>Hasta 3 platos del d&iacute;a en el listado principal</p>
+                        <hr/>
+                        <p>Informaci&oacute;n detallada de cada plato</p>
+                        <hr/>
+                        <p>Detalle del local y ubicaci&oacute;n en el mapa</p>
+                        <hr/>
+                        <p>Informaci&oacute;n de horarios, medios de pago y delivery</p>
+                        <hr/>
+                        <p>1 sucursal</p>
+                        <div class="price-tag">
+                            <label>$ 250</label><span>/ mes</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 about-us-box wow fadeInDown">
+                    <h3>Men&uacute; Pro</h3>
+                    <div class="pricing-box">
+                        <p>Hasta 10 platos del d&iacute;a en el listado principal</p>
+                        <hr/>
+                        <p>Informaci&oacute;n detallada de cada plato</p>
+                        <hr/>
+                        <p>Detalle del local y ubicaci&oacute;n en el mapa</p>
+                        <hr/>
+                        <p>Informaci&oacute;n de horarios, medios de pago y delivery</p>
+                        <hr/>
+                        <p>Hasta 3 sucursales</p>
+                        <hr/>
+                        <p>Env&iacute;o del men&uacute; diario a clientes que te "siguen"</p>
+                        <div class="price-tag coming-soon">
+                            <label>$ 550</label><span>/ mes</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2"></div>
+            </div>
+        </div>
     </div>
-</div>
+
+    <!-- Contact us -->
+    <div class="contact-container section-container section-container-full-bg" id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 contact section-description wow fadeIn">
+                    <h2>¡Contactanos!</h2>
+                    <p>
+                        Si querés dejarnos una sugerencia, sugerir un local o sos dueño de uno, dejanos un mensaje y nos pondremos en contacto contigo.
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-7 contact-form wow fadeInLeft">
+                    <h3>Dejanos un mensaje</h3>
+
+                    @using (Html.BeginForm("SendMessage", "Home", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Email, new { @class = "sr-only" })
+                            @Html.TextBoxFor(m => m.Email, new { @placeholder = "Correo...", @class = "contact-email form-control" })
+                            @Html.ValidationMessageFor(m => m.Email)
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Subject, new { @class = "sr-only" })
+                            @Html.TextBoxFor(m => m.Subject, new { @placeholder = "Asunto...", @class = "contact-subject form-control" })
+                            @Html.ValidationMessageFor(m => m.Subject)
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Message, new { @class = "sr-only" })
+                            @Html.TextAreaFor(m => m.Message, new { @placeholder = "Mensaje...", @class = "contact-message form-control" })
+                            @Html.ValidationMessageFor(m => m.Message)
+                        </div>
+                        <button type="submit" class="btn" id="btnSend">Enviar mensaje</button>
+                        <img id="imgLoaderGif" src="../../Content/img/ajax-loader.gif" style="display: none;" />
+                    }
+
+
+                    <p id="pMessage"></p>
+
+
+                </div>
+                <div class="col-sm-5 contact-address wow fadeInUp">
+                    <h3>Detalles de contacto</h3>
+                    <p><i class="fa fa-envelope"></i>Email: <a href="mailto:menudeldia.uy@gmail.com">menudeldia.uy@gmail.com</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-7 footer-copyright">
+                    &copy; <a href="http://www.menudeldia.uy">menudeld&iacute;a </a>
+                </div>
+                @*<div class="col-sm-5 footer-social">
+                        <a class="ultm ultm-facebook ultm-32 ultm-square ultm-color-to-gray" href=""></a>
+                        <a class="ultm ultm-dribbble ultm-32 ultm-square ultm-color-to-gray" href=""></a>
+                        <a class="ultm ultm-twitter ultm-32 ultm-square ultm-color-to-gray" href=""></a>
+                        <a class="ultm ultm-google-plus-1 ultm-32 ultm-square ultm-color-to-gray" href=""></a>
+                        <a class="ultm ultm-pinterest ultm-32 ultm-square ultm-color-to-gray" href=""></a>
+                    </div>*@
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Javascript -->
+    <script src="/Content/js/jquery-1.11.1.min.js"></script>
+    <script src="/Content/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/Content/js/bootstrap-hover-dropdown.min.js"></script>
+    <script src="/Content/js/jquery.backstretch.min.js"></script>
+    <script src="/Content/js/wow.min.js"></script>
+    <script src="/Content/js/retina-1.1.0.min.js"></script>
+    <script src="/Content/js/jquery.magnific-popup.min.js"></script>
+    <script src="/Content/twitter/jquery.tweet.min.js"></script>
+    <script src="/Content/js/scripts.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("contact-form form").validate({
+                submitHandler: function (form) {
+                    $(form).submit();
+                }
+            });
+        });
+
+    </script>
+
+
+
+
+    <!--[if lt IE 10]>
+        <script src="/Content/js/placeholder.js"></script>
+    <![endif]-->
+
+
+
+</body>
+
+</html>

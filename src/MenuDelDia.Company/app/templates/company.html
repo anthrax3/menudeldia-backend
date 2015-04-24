@@ -1,0 +1,74 @@
+<div class="row">
+    <div class="col-md-3 image-container">
+        <div class="image-thumb" ng-if="uploader.queue[0]">
+            <div ng-show="uploader.isHTML5" ng-thumb="{ file: uploader.queue[0]._file, height: 100 }"></div>
+            <a class="image-close" href ng-click="uploader.queue[0].remove()"><i class="fa fa-trash"></i> Borrar imagen</a>
+        </div>
+        <div ng-if="uploader.queue.length == 0" class="well my-drop-zone" over-class="another-file-over-class" nv-file-drop="" nv-file-over="" uploader="uploader">
+            Arrastr&aacute; aqu&iacute; el logo de tu empresa
+        </div>
+        <input ng-if="uploader.queue.length == 0" type="file" nv-file-select uploader="uploader"/>
+    </div>
+    <div class="col-md-9">
+            <form>
+                <div class="form-group">
+                    <input type="text" class="form-control input-lg" placeholder="Nombre de la empresa" ng-model="company.name">
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control input-lg" placeholder="Descripcion" ng-model="company.description"></textarea>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">http://</div>
+                        <input type="text" class="form-control input-lg" placeholder="Sitio web" ng-model="company.url">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control input-lg" placeholder="Email" ng-model="company.email"/>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control input-lg" placeholder="Teléfono general" ng-model="company.phone"/>
+                </div>
+                <div class="row text-left">
+                    <div class="col-md-12">
+                        <h2><small>Caracter&iacute;sticas (seleccion&aacute; hasta 3 opciones)</small></h2>
+                    </div>
+                </div>
+                <div class="row text-left">
+                    <div class="col-md-2" ng-repeat="tag in tags">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" value="{{tag.id}}" ng-model="tag.selected"> {{tag.name}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row well login-container" ng-if="!existingCompany">
+                    <h3>
+                        <small>Cre&aacute; tu cuenta en menu del d&iacute;a para acceder la informaci&oacute;n
+                            de tu empresa y administrar tu men&uacute; semanal. Al crear la cuenta aceptas nuestros
+                            <a href>t&eacute;rminos y condiciones</a></small>
+                    </h3>
+                    <div class="col-lg-3"></div>
+                    <div class="col-md-12 col-lg-6">
+                        <div class="form-group">
+                            <input type="text" class="form-control input-lg" placeholder="Nombre de usuario (email)" ng-model="user.userName"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control input-lg" placeholder="Contraseña" ng-model="user.password"/>
+                        </div>
+                    </div>
+                    <div class="col-lg-3"></div>
+                </div>
+                <div class="row button-container">
+                    <div class="col-md-6">
+                        <button ng-click="saveCompany()" type="submit" class="btn btn-primary btn-lg pull-left" ladda="loadingSave" data-style="expand-right">Guardar</button>
+                    </div>
+                    <div class="col-md-6">
+                        <button ng-click="nextStep()" type="submit" class="btn btn-primary btn-lg pull-right next-step" ladda="loadingNextStep" data-style="expand-right">Mis locales <i class="fa fa-angle-right"></i></button>
+                    </div>
+                </div>
+            </form>
+    </div>
+</div>
