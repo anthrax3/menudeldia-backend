@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using MenuDelDia.API.Models.Site;
 using MenuDelDia.Entities;
+using Microsoft.AspNet.Identity;
 using WebGrease.Css.Extensions;
 using LocationApiModel = MenuDelDia.API.Models.Site.LocationApiModel;
 

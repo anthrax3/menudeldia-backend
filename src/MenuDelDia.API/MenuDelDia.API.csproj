@@ -150,27 +150,51 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API\Mobile\AppCommentsController.cs" />
-    <Compile Include="API\Mobile\LogosController.cs" />
-    <Compile Include="API\Mobile\MenusController.cs" />
-    <Compile Include="API\Mobile\RestaurantsController.cs" />
-    <Compile Include="API\Mobile\SuggestionsController.cs" />
-    <Compile Include="API\Site\ApiBaseController.cs" />
-    <Compile Include="API\Site\CreditCardsApiController.cs" />
-    <Compile Include="API\Site\FileApiController.cs" />
-    <Compile Include="API\Site\RegisterApiController.cs" />
-    <Compile Include="API\Site\TagsApiController.cs" />
+    <Compile Include="API\Mobile\AppCommentsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="API\Mobile\LogosController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="API\Mobile\MenusController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="API\Mobile\RestaurantsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="API\Mobile\SuggestionsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="API\Site\ApiBaseController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="API\Site\CreditCardsApiController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="API\Site\FileApiController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="API\Site\RegisterApiController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="API\Site\TagsApiController.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\HttpExtensions.cs" />
     <Compile Include="Helpers\StringHelper.cs" />
+    <Compile Include="Identity\AppUserManager.cs" />
+    <Compile Include="Identity\AppUserStore.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LocationModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MenuModel.cs" />
@@ -191,7 +215,9 @@
     <Compile Include="Models\Site\RestaurantMenuApiModel.cs" />
     <Compile Include="Models\Site\UpdateRegisterApiModel.cs" />
     <Compile Include="Models\TagModel.cs" />
+    <Compile Include="OAuthProvider\SimpleAuthorizationServerProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Resources\ViewResources.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -206,21 +232,13 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MenuDelDia.Admin\MenuDelDia.Admin.csproj">
-      <Project>{8E375462-E26A-4750-AEB8-A151B68FF4E1}</Project>
-      <Name>MenuDelDia.Admin</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MenuDelDia.Entities\MenuDelDia.Entities.csproj">
-      <Project>{715CE35F-09B6-458F-9ADD-CCB0B92F9908}</Project>
+      <Project>{715ce35f-09b6-458f-9add-ccb0b92f9908}</Project>
       <Name>MenuDelDia.Entities</Name>
     </ProjectReference>
     <ProjectReference Include="..\MenuDelDia.Repositories\MenuDelDia.Repositories.csproj">
       <Project>{2E08EAF1-BE43-4B3D-A517-F22D4C2F26E9}</Project>
       <Name>MenuDelDia.Repositories</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MenuDelDia.Site\MenuDelDia.Site.csproj">
-      <Project>{46EFAC81-4BA6-425E-9B76-82F8E61672D2}</Project>
-      <Name>MenuDelDia.Site</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
