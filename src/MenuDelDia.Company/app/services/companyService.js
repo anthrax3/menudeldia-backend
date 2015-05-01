@@ -23,7 +23,7 @@
             var deferred = $q.defer();
 
             //call webapi service
-            $http.get('http://localhost:42479/api/site/companyInfo/' + id)
+            $http.get('http://localhost:45280/api/site/companyInfo/' + id)
                 .success(function (data, status, headers, config) { deferred.resolve(data); })
                 .error(function (data, status, headers, config) { deferred.reject({ data: data, status: status }); });
 
@@ -35,7 +35,7 @@
             var deferred = $q.defer();
 
             //call webapi service
-            $http.post('http://localhost:42479/api/site/register',company)
+            $http.post('http://localhost:45280/api/site/register', company)
                 .success(function (data, status, headers, config) { deferred.resolve(data); })
                 .error(function (data, status, headers, config) { deferred.reject({ data: data, status: status }); });
 
@@ -45,7 +45,7 @@
         function updateRegisterCompany(company) {
             var deferred = $q.defer();
             //call webapi service
-            $http.post('http://localhost:42479/api/site/updateregister',company)
+            $http.post('http://localhost:45280/api/site/updateregister', company)
                 .success(function (data, status, headers, config) { deferred.resolve(data); })
                 .error(function (data, status, headers, config) { deferred.reject({ data: data, status: status }); });
 
