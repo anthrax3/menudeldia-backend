@@ -5,5 +5,6 @@ angular.module('menudeldia', [
 'ui.router',
 'angular-ladda',
 'uiGmapgoogle-maps',
-'angularFileUpload'
+'angularFileUpload',
+'LocalStorageModule',
 ]);

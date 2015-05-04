@@ -29,8 +29,8 @@ namespace MenuDelDia.API.OAuthProvider
             context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
             var applicationSignInManager = HttpContext.Current.GetOwinContext().Get<ApplicationSignInManager>();
 
-            var user = await applicationSignInManager.UserManager.FindAsync(context.UserName, context.Password);
-
+            var user = await applicationSignInManager.UserManager
+                                                     .FindAsync(context.UserName, context.Password);
             if (user == null)
             {
                 context.SetError("invalid_grant", "Usuario o contraseña no válidos.");
@@ -61,28 +61,10 @@ namespace MenuDelDia.API.OAuthProvider
 
         public static AuthenticationProperties CreateProperties(ApplicationUser user)
         {
-            //var firstName = user.FirstName;
-            //var lastName = user.LastName;
+            return new AuthenticationProperties(new Dictionary<string, string>
+            {
 
-            //if (string.IsNullOrEmpty(firstName) && string.IsNullOrEmpty(lastName))
-            //{
-            //    firstName = user.Email;
-            //    lastName = string.Empty;
-            //}
-            //else if (string.IsNullOrEmpty(firstName) == false && string.IsNullOrEmpty(lastName))
-            //{
-            //    lastName = string.Empty;
-            //}
-
-            //IDictionary<string, string> data = new Dictionary<string, string>
-            //{
-            //    {"firstName", firstName},
-            //    {"lastName", lastName},
-            //    {"email", user.Email},
-            //};
-
-            IDictionary<string, string> data = new Dictionary<string, string>();
-            return new AuthenticationProperties(data);
+            });
         }
     }
 }

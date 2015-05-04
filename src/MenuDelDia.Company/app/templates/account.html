@@ -1,0 +1,92 @@
+<div class="row">
+    <div class="col-md-6">
+        <form name="registerForm" ng-submit="signIn(registerForm.$valid)" novalidate>
+            <div class="row well login-container">
+                <h3>
+                    <small>
+                        Cre&aacute; tu cuenta en menu del d&iacute;a para acceder la informaci&oacute;n
+                        de tu empresa y administrar tu men&uacute; semanal. Al crear la cuenta aceptas nuestros
+                        <a href>t&eacute;rminos y condiciones</a>
+                    </small>
+                </h3>
+                <div class="col-lg-3"></div>
+                <div class="col-md-12 col-lg-6">
+                    <div class="form-group" ng-class="{ 'has-error' : (registerForm.email.$invalid && !registerForm.email.$pristine) ||
+                                                                      (registerForm.email.$invalid &&  registerForm.email.$pristine && signInSubmit) }">
+                        <input type="text"
+                               class="form-control input-lg"
+                               placeholder="Nombre de usuario (email)"
+                               ng-model="userSignIn.email"
+                               name="email"
+                               required />
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error' : (registerForm.password.$invalid && !registerForm.password.$pristine) ||
+                                                                      (registerForm.password.$invalid &&  registerForm.password.$pristine && signInSubmit) }">
+                        <input type="password"
+                               class="form-control input-lg"
+                               placeholder="Contraseña"
+                               ng-model="userSignIn.password"
+                               name="password"
+                               required />
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error' : (registerForm.validationPassword.$invalid && !registerForm.validationPassword.$pristine) ||
+                                                                      (registerForm.validationPassword.$invalid &&  registerForm.validationPassword.$pristine && signInSubmit) }">
+                        <input type="password"
+                               class="form-control input-lg"
+                               placeholder="Repetir contraseña"
+                               ng-model="userSignIn.validationPassword"
+                               name="validationPassword"
+                               required />
+                    </div>
+                </div>
+                <div class="col-lg-3"></div>
+            </div>
+            <div class="row button-container">
+                <div class="col-md-6"></div>
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-primary btn-lg pull-right next-step" ladda="loadingSignIn" data-style="expand-right">Registrarme <i class="fa fa-angle-right"></i></button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-6">
+        <form name="loginForm" ng-submit="logIn(loginForm.$valid)" novalidate>
+            <div class="row well login-container">
+                <h3>
+                    <small>
+                        Si ya ten&eacute;s una cuenta, ingres&aacute; aqu&iacute;
+                    </small>
+                </h3>
+                <div class="col-lg-3"></div>
+                <div class="col-md-12 col-lg-6">
+                    <div class="form-group" ng-class="{ 'has-error' : (loginForm.email.$invalid && !loginForm.email.$pristine) ||
+                                                                      (loginForm.email.$invalid &&  loginForm.email.$pristine && logInSubmit) }">
+                        <input type="text"
+                               class="form-control input-lg"
+                               placeholder="Nombre de usuario (email)"
+                               ng-model="userLogIn.email"
+                               name="email"
+                               required />
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error' : (loginForm.password.$invalid && !loginForm.password.$pristine) ||
+                                                                      (loginForm.password.$invalid &&  loginForm.password.$pristine && logInSubmit) }">
+                        <input type="password"
+                               class="form-control input-lg"
+                               placeholder="Contraseña"
+                               ng-model="userLogIn.password"
+                               name="password"
+                               required />
+                    </div>
+                </div>
+                <div class="col-lg-3"></div>
+            </div>
+            <div class="row button-container">
+                <div class="col-md-6"></div>
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-primary btn-lg pull-right next-step" ladda="loadingLogIn" data-style="expand-right">Ingresar <i class="fa fa-angle-right"></i></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

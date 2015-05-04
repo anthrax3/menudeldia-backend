@@ -5,12 +5,11 @@
         .module('menudeldia')
         .controller('companyCtrl', company);
 
-    company.$inject = ['$scope', '$rootScope', '$state', '$stateParams', '$timeout', 'FileUploader', 'companyService', 'configService', 'authService'];
+    company.$inject = ['$scope', '$rootScope', '$state', '$stateParams', '$timeout', 'FileUploader', 'companyService', 'configService', 'authService', 'companyInfo','tags'];
 
-    function company($scope, $rootScope, $state, $stateParams, $timeout, FileUploader, companyService, configService, authService) {
+    function company($scope, $rootScope, $state, $stateParams, $timeout, FileUploader, companyService, configService, authService, companyInfo,tags) {
 
         //function definition
-        $scope.loadTags = loadTags;
         $scope.nextStep = nextStep;
         $scope.saveCompany = saveCompany;
 
@@ -19,128 +18,85 @@
 
         //functions
 
-        function activate(){
+        function activate() {
             $scope.existingCompany = false;
             $scope.loadingSave = false;
             $scope.loadingNextStep = false;
             $scope.showNextStep = false;
 
+            authService.fillAuthData();
+
             initImageUpload();
-            loadTags();
-            //if first time
-            if($stateParams.cId == undefined){
-                newCompany();
-                //disable other views and save button
-                $rootScope.enabledStores = false;
-                $rootScope.enabledMenu= false;
-            }
-            else{
-                //loadCompany by user id or similar
-                loadCompany($stateParams.cId);
-                $rootScope.enabledStores = true;
-                $rootScope.enabledMenu= true;
-                $scope.existingCompany = true;
-            }
-        }
 
-        function loadTags(){
-            configService.getTags().then(function(result)
-            {
-                $scope.tags = result;
+            $scope.tags = tags;
+            $scope.company = companyInfo;
+
+            _.map($scope.tags, function (item) {
+                item.selected = _.indexOf($scope.company.tags, item.id) !== -1;
+                return item;
             });
+
+            if (authService.authentication.isAuth == false) { $state.go('account'); }
+
+            $rootScope.enabledStores = true;
+            $rootScope.enabledMenu = true;
+            $scope.existingCompany = true;
+
         }
 
-        function registerUser(){
-            authService.register($scope.user);
-        }
-
-        function uploadImage(){
+        function uploadImage() {
             //$scope.uploader.queue[0].upload(); //Manage errors
         }
 
-        function saveCompany(){
+        function saveCompany() {
             $scope.loadingSave = true;
-            debugger;
+
             uploadImage();
 
-            //registerUser();
-
             //set new tags
-            $scope.company.tags = _.pluck(_.filter($scope.tags, function(i){ return i.selected }), 'id');
+            $scope.company.tags = _.pluck(_.filter($scope.tags, function (i) { return i.selected }), 'id');
+            
+            companyService.save($scope.company)
+                .then(
+                    function(result) {
+                        $scope.loadingSave = false;
+                    },
+                    function(result) {
 
-            $scope.company.emailUserName = $scope.user.userName;
-            $scope.company.password = $scope.user.password;
-
-
-          companyService.registerCompany($scope.company).then(function(result){
-                var id = result.restaurantId;
-
-
-          });
+                    });
         }
 
         function nextStep() {
             $scope.loadingNextStep = true;
             $state.go('stores');
-            //$scope.loadingNextStep = false;
+            $scope.loadingNextStep = false;
         }
 
-        function newCompany(){
-            $scope.company = {
-                name: '',
-                description: '',
-                url: '',
-                email: '',
-                phone: '',
-                tags: [],
-                image:'',
-                emailUserName:'',
-                password:''
-            };
-
-            $scope.user = {
-                userName: '',
-                password: ''
-            }
-        }
-
-        function loadCompany(id){
-            $scope.company = companyService.getCompany(id);
-            //if company not found show error (404)
-                //404
-            //else
-             //merge company tags
-            _.map($scope.tags, function(item){
-                item.selected = _.indexOf($scope.company.tags, item.id) !== -1;
-                return item;
-            });
-        }
-
-        function initImageUpload(){
+        function initImageUpload() {
             //Image upload
             $scope.uploader = new FileUploader();
 
             $scope.uploader.filters.push({
                 name: 'imageFilter',
-                fn: function(item /*{File|FileLikeObject}*/, options) {
+                fn: function (item /*{File|FileLikeObject}*/, options) {
                     var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
                     return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
                 }
             });
         }
 
-//        $scope.$watch('company', function() {
-//            $scope.showNextStep = ($scope.company.name != "")
-//                && ($scope.company.description != "")
-//                && ($scope.company.url != "")
-//                && ($scope.company.email != "")
-//                && ($scope.company.phone != "");
-//                //&& (!$scope.existingCompany
-//                //    && $scope.user.userName != "" //if first time also check for user and password
-//                //    && $scope.user.password != "");
-//
-//        },
-//        true);
+        //        $scope.$watch('company', function() {
+        //            $scope.showNextStep = ($scope.company.name != "")
+        //                && ($scope.company.description != "")
+        //                && ($scope.company.url != "")
+        //                && ($scope.company.email != "")
+        //                && ($scope.company.phone != "");
+        //                //&& (!$scope.existingCompany
+        //                //    && $scope.user.userName != "" //if first time also check for user and password
+        //                //    && $scope.user.password != "");
+        //
+        //        },
+        //        true);
     }
 })();
 

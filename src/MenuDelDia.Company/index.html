@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head lang="en">
     <meta charset="UTF-8">
@@ -9,83 +9,86 @@
     <link rel="stylesheet" href="bower_components/ladda/dist/ladda-themeless.min.css">
 </head>
 <body ng-app="menudeldia">
-<div class="container">
-    <div class="starter-template">
-        <!--main content-->
-        <div class="row wizard-steps">
-            <div class="col-md-4 step" ui-sref="company" ui-sref-active="active">
-                <div class="col-md-1 separator">
-                    <i class="fa fa-building"></i>
+    <div class="container">
+        <div class="starter-template">
+            <!--main content-->
+            <div class="row wizard-steps">
+                <div class="col-md-4 step" ui-sref="company" ui-sref-active="active">
+                    <div class="col-md-1 separator">
+                        <i class="fa fa-building"></i>
+                    </div>
+                    <div class="col-md-10">
+                        <a>MI EMPRESA</a>
+                    </div>
                 </div>
-                <div class="col-md-10">
-                    <a>MI EMPRESA</a>
+                <!--<div class="col-md-1 separator"><i class="fa fa-chevron-right"></i></div>-->
+                <div class="col-md-4 step" ng-if="enabledStores" ui-sref-active="active" ui-sref="stores">
+                    <div class="col-md-1 separator">
+                        <i class="fa fa-home"></i>
+                    </div>
+                    <div class="col-md-10">
+                        <a>MIS LOCALES</a>
+                    </div>
+                </div>
+                <div class="col-md-4 step step-disabled" ng-if="!enabledStores">
+                    <div class="col-md-1 separator">
+                        <i class="fa fa-home"></i>
+                    </div>
+                    <div class="col-md-10">
+                        <a>MIS LOCALES</a>
+                    </div>
+                </div>
+                <div class="col-md-4 step" ui-sref-active="active" ui-sref="menu" ng-if="enabledMenu">
+                    <div class="col-md-1 separator">
+                        <i class="fa fa-th-list"></i>
+                    </div>
+                    <div class="col-md-10">
+                        <a>MI MENU</a>
+                    </div>
+                </div>
+                <div class="col-md-4 step step-disabled" ng-if="!enabledMenu">
+                    <div class="col-md-1 separator">
+                        <i class="fa fa-th-list"></i>
+                    </div>
+                    <div class="col-md-10">
+                        <a>MI MENU</a>
+                    </div>
                 </div>
             </div>
-            <!--<div class="col-md-1 separator"><i class="fa fa-chevron-right"></i></div>-->
-            <div class="col-md-4 step" ng-if="enabledStores" ui-sref-active="active" ui-sref="stores">
-                <div class="col-md-1 separator">
-                    <i class="fa fa-home"></i>
-                </div>
-                <div class="col-md-10">
-                    <a>MIS LOCALES</a>
-                </div>
-            </div>
-            <div class="col-md-4 step step-disabled" ng-if="!enabledStores">
-                <div class="col-md-1 separator">
-                    <i class="fa fa-home"></i>
-                </div>
-                <div class="col-md-10">
-                    <a>MIS LOCALES</a>
-                </div>
-            </div>
-            <div class="col-md-4 step" ui-sref-active="active" ui-sref="menu" ng-if="enabledMenu">
-                <div class="col-md-1 separator">
-                    <i class="fa fa-th-list"></i>
-                </div>
-                <div class="col-md-10">
-                    <a>MI MENU</a>
-                </div>
-            </div>
-            <div class="col-md-4 step step-disabled" ng-if="!enabledMenu">
-                <div class="col-md-1 separator">
-                    <i class="fa fa-th-list"></i>
-                </div>
-                <div class="col-md-10">
-                    <a>MI MENU</a>
-                </div>
-            </div>
+            <div ui-view></div>
         </div>
-        <div ui-view></div>
-    </div>
-</div><!-- /.container -->
+    </div><!-- /.container -->
 
-<script type="application/javascript" src="bower_components/angular/angular.min.js"></script>
-<script type="application/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
-<script src="bower_components/ladda/js/spin.js"></script>
-<script src="bower_components/ladda/js/ladda.js"></script>
-<script src="bower_components/angular-ladda/dist/angular-ladda.min.js"></script>
-<script src="bower_components/lodash/dist/lodash.min.js"></script>
-<script src="bower_components/angular-google-maps/dist/angular-google-maps.min.js"></script>
-<script src="bower_components/angular-file-upload/angular-file-upload.min.js"></script>
+    <script type="application/javascript" src="bower_components/angular/angular.min.js"></script>
+    <script type="application/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="bower_components/ladda/js/spin.js"></script>
+    <script src="bower_components/ladda/js/ladda.js"></script>
+    <script src="bower_components/angular-ladda/dist/angular-ladda.min.js"></script>
+    <script src="bower_components/lodash/dist/lodash.min.js"></script>
+    <script src="bower_components/angular-google-maps/dist/angular-google-maps.min.js"></script>
+    <script src="bower_components/angular-file-upload/angular-file-upload.min.js"></script>
+    <script src="bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
 
-<!-- Production: update & run gulp-->
-<!--<script type="application/javascript" src="assets/js/bundle-ug.js"></script>-->
+    <!-- Production: update & run gulp-->
+    <!--<script type="application/javascript" src="assets/js/bundle-ug.js"></script>-->
 
-<script type="application/javascript" src="app/app.js"></script>
-<script type="application/javascript" src="app/config.js"></script>
+    <script type="application/javascript" src="app/app.js"></script>
+    <script type="application/javascript" src="app/config.js"></script>
 
-<!-- Controllers -->
-<script type="application/javascript" src="app/controllers/company.js"></script>
-<script type="application/javascript" src="app/controllers/stores.js"></script>
-<script type="application/javascript" src="app/controllers/menu.js"></script>
-<script type="application/javascript" src="app/directives/ng-thumb.js"></script>
+    <!-- Controllers -->
+    <script type="application/javascript" src="app/controllers/account.js"></script>
+    <script type="application/javascript" src="app/controllers/company.js"></script>
+    <script type="application/javascript" src="app/controllers/stores.js"></script>
+    <script type="application/javascript" src="app/controllers/menu.js"></script>
+    <script type="application/javascript" src="app/directives/ng-thumb.js"></script>
 
-<!-- Services -->
-<script type="application/javascript" src="app/services/companyService.js"></script>
-<script type="application/javascript" src="app/services/configService.js"></script>
-<script type="application/javascript" src="app/services/authService.js"></script>
-<script type="application/javascript" src="app/services/storesService.js"></script>
-<script type="application/javascript" src="app/services/menuService.js"></script>
+    <!-- Services -->
+    <script type="application/javascript" src="app/services/companyService.js"></script>
+    <script type="application/javascript" src="app/services/configService.js"></script>
+    <script type="application/javascript" src="app/services/authService.js"></script>
+    <script type="application/javascript" src="app/services/storesService.js"></script>
+    <script type="application/javascript" src="app/services/menuService.js"></script>
+    <script type="application/javascript" src="app/services/authInterceptorService.js"></script>
 
 </body>
 </html>

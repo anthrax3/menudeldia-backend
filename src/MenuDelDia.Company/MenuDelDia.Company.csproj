@@ -59,6 +59,9 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\controllers\account.js" />
+    <Content Include="app\services\authInterceptorService.js" />
+    <Content Include="app\templates\account.html" />
     <Content Include="assets\font-awesome-4.3.0\fonts\fontawesome-webfont.eot" />
     <Content Include="assets\font-awesome-4.3.0\fonts\fontawesome-webfont.ttf" />
     <Content Include="assets\font-awesome-4.3.0\fonts\fontawesome-webfont.woff" />
@@ -120,6 +123,13 @@
     <Content Include="bower_components\angular-ladda\LICENSE" />
     <Content Include="bower_components\angular-ladda\package.json" />
     <Content Include="bower_components\angular-ladda\README.md" />
+    <Content Include="bower_components\angular-local-storage\.gitattributes" />
+    <Content Include="bower_components\angular-local-storage\.gitignore" />
+    <Content Include="bower_components\angular-local-storage\demo\demo-app.js" />
+    <Content Include="bower_components\angular-local-storage\demo\demo-style.css" />
+    <Content Include="bower_components\angular-local-storage\demo\demo.html" />
+    <Content Include="bower_components\angular-local-storage\dist\angular-local-storage.js" />
+    <Content Include="bower_components\angular-local-storage\dist\angular-local-storage.min.js" />
     <Content Include="bower_components\angular-ui-router\.bower.json" />
     <Content Include="bower_components\angular-ui-router\bower.json" />
     <Content Include="bower_components\angular-ui-router\CHANGELOG.md" />
@@ -2895,6 +2905,14 @@
     <Content Include="node_modules\gulp\package.json" />
     <Content Include="node_modules\gulp\README.md" />
     <Content Include="package.json" />
+    <Content Include="bower_components\angular-local-storage\.bower.json" />
+    <Content Include="bower_components\angular-local-storage\.bowerrc" />
+    <Content Include="bower_components\angular-local-storage\.travis.yml" />
+    <Content Include="bower_components\angular-local-storage\bower.json" />
+    <Content Include="bower_components\angular-local-storage\CHANGELOG.md" />
+    <Content Include="bower_components\angular-local-storage\LICENSE" />
+    <Content Include="bower_components\angular-local-storage\package.json" />
+    <Content Include="bower_components\angular-local-storage\README.md" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -8590,7 +8608,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>10342</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:10342/</IISUrl>
+          <IISUrl>http://localhost:45292/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

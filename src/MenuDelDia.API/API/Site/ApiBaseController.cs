@@ -24,7 +24,11 @@ namespace MenuDelDia.API.API.Site
             get
             {
                 if (_db == null)
+                {
                     _db = new AppContext();
+                    _db.Configuration.AutoDetectChangesEnabled = true;
+                    _db.Configuration.LazyLoadingEnabled = false;
+                }
 
                 return _db;
             }
@@ -54,9 +58,9 @@ namespace MenuDelDia.API.API.Site
         }
 
 
-        public async Task<ApplicationUser> CurrentUser()
+        public Task<ApplicationUser> CurrentUser()
         {
-            return await UserManager.FindByIdAsync(Guid.Parse(User.Identity.GetUserId()));
+            return UserManager.FindByIdAsync(Guid.Parse(User.Identity.GetUserId()));
         }
 
 
@@ -70,7 +74,7 @@ namespace MenuDelDia.API.API.Site
 
             return currentUser.RestaurantId == requestRestaurantId;
         }
-        
+
         /// <summary>
         /// Return userId based on current claims.
         /// </summary> 
@@ -87,6 +91,30 @@ namespace MenuDelDia.API.API.Site
 
                 var userIdClaim = userClaim.Claims.First(c => c.Type == "id");
                 return Guid.Parse(userIdClaim.Value);
+            }
+        }
+
+        /// <summary>
+        /// Return restaurantId based on current claims.
+        /// </summary> 
+        /// <returns>UserId</returns>
+        /// <exception cref="FatalException">User must be authenticated.</exception>
+        public Guid CurrentRestaurantId
+        {
+            get
+            {
+                var userClaim = ClaimsPrincipal.Current;
+
+                if (userClaim.Identity.IsAuthenticated == false)
+                    throw new ApplicationException("User must be authenticated.");
+
+                var restaurantIdClaim = userClaim.Claims.First(c => c.Type == "restaurantId");
+                Guid restaurantId;
+
+                if (Guid.TryParse(restaurantIdClaim.Value, out restaurantId))
+                    return restaurantId;
+
+                return Guid.Empty;
             }
         }
 

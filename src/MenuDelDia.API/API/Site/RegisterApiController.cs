@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -25,33 +26,21 @@ namespace MenuDelDia.API.API.Site
             base.Dispose(disposing);
         }
 
-        private async Task<bool> CreateRestaurantUser(string emailUserName, string password, Guid restaurantId)
-        {
-            if (ModelState.IsValid)
-            {
-
-                var user = new ApplicationUser { UserName = emailUserName, Email = emailUserName, RestaurantId = restaurantId };
-
-                var result = await UserManager.CreateAsync(user, password);
-                UserManager.AddToRole(user.Id, "User");
-
-                if (result.Succeeded)
-                {
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    return true;
-                }
-            }
-            return false;
-        }
 
         private async Task<bool> ValidateUserName(string emailUserName)
         {
             return (await UserManager.FindByEmailAsync(emailUserName)) == null;
+        }
+
+        private static string UnFormatUrl(string url)
+        {
+            if (string.IsNullOrEmpty(url))
+                return string.Empty;
+
+            url = url.ToLower();
+            url = url.Contains("https://") ? url.Replace("https://", "") : url.Replace("http://", "");
+
+            return url;
         }
         private static string FormatUrl(string url)
         {
@@ -74,25 +63,71 @@ namespace MenuDelDia.API.API.Site
         }
 
 
+        [HttpPost]
+        [Route("api/site/user/register")]
+        public async Task<HttpResponseMessage> UserRegister([FromBody] UserRegisterApiModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (await ValidateUserName(model.Email))
+                    {
+                        if (model.IsValid == false)
+                            return Request.CreateResponse(HttpStatusCode.BadRequest);
+
+                        var user = new ApplicationUser
+                        {
+                            Id = Guid.NewGuid(),
+                            UserName = model.Email,
+                            Email = model.Email,
+                            EmailConfirmed = true,
+                        };
+
+                        var result = await UserManager.CreateAsync(user, model.Password);
+
+                        if (result.Succeeded)
+                        {
+                            UserManager.AddToRole(user.Id, "User");
+                            return Request.CreateResponse(HttpStatusCode.OK);
+                        }
+                    }
+                }
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+            catch (Exception)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+        }
+
 
         [HttpGet]
-        [Route("api/site/companyInfo/{id:guid}")]
-        public Task<HttpResponseMessage> CompanyInfo([FromUri] Guid id)
+        [Route("api/site/companyInfo")]
+        public Task<HttpResponseMessage> CompanyInfo()
         {
             return Task<HttpResponseMessage>.Factory.StartNew(() =>
             {
                 try
                 {
-                    if (ModelState.IsValid)
+                    var restaurant = CurrentAppContext.Restaurants
+                                                      .Include(r => r.Tags)
+                                                      .Include(r => r.Cards)
+                                                      .FirstOrDefault(r => r.Id == CurrentRestaurantId);
+
+                    if (restaurant == null)
+                        return Request.CreateResponse(HttpStatusCode.OK, new RegisterApiModel());
+
+                    var registerApiModel = new RegisterApiModel
                     {
-                        var restaurant = CurrentAppContext.Restaurants.FirstOrDefault(r => r.Id == id);
-
-                        if (restaurant == null)
-                            return Request.CreateResponse(HttpStatusCode.BadRequest);
-
-                        return Request.CreateResponse(HttpStatusCode.OK, new { name = restaurant.Name });
-                    }
-                    return Request.CreateResponse(HttpStatusCode.BadRequest);
+                        Name = restaurant.Name,
+                        Description = restaurant.Description,
+                        Email = restaurant.Email,
+                        Url = UnFormatUrl(restaurant.Url),
+                        Cards = restaurant.Cards.Select(c => c.Id).ToList(),
+                        Tags = restaurant.Tags.Select(t => t.Id).ToList(),
+                    };
+                    return Request.CreateResponse(HttpStatusCode.OK, registerApiModel);
                 }
                 catch (Exception)
                 {
@@ -102,76 +137,59 @@ namespace MenuDelDia.API.API.Site
         }
 
         [HttpPost]
-        [Route("api/site/register")]
-        public async Task<HttpResponseMessage> Register([FromBody] RegisterApiModel model)
+        [Route("api/site/company/save")]
+        public HttpResponseMessage CompanySave([FromBody] RegisterApiModel model)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    if (await ValidateUserName(model.EmailUserName) == false)
+                    var restaurant = CurrentAppContext.Restaurants
+                             .Include(r => r.Locations)
+                             .Include(r => r.Tags)
+                             .Include(r => r.Cards)
+                             .FirstOrDefault(r => r.Id == CurrentRestaurantId);
+
+                    if (restaurant == null)
                     {
-                        ModelState.AddModelError("EmailUserName", "El nombre de usuario ingresado ya se encuentra registrado en el sistema.");
-                    }
 
-                    var entityCards = CurrentAppContext.Cards.Where(c => model.Cards.Contains(c.Id)).ToList();
-                    var entityTags = CurrentAppContext.Tags.Where(t => model.Tags.Contains(t.Id)).ToList();
+                        var user = CurrentAppContext.Users.FirstOrDefault(u => u.Id == CurrentUserId);
 
-                    var entityRestaurant = new Restaurant
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = model.Name,
-                        Email = model.Email,
-                        Description = model.Description,
-                        Url = FormatUrl(model.Url),
-                        Active = true,
-                    };
+                        if (user == null)
+                            return Request.CreateResponse(HttpStatusCode.BadRequest);
 
-                    entityCards.ForEach(c => entityRestaurant.Cards.Add(c));
-                    entityTags.ForEach(t => entityRestaurant.Tags.Add(t));
-
-                    CurrentAppContext.Restaurants.Add(entityRestaurant);
-                    CurrentAppContext.SaveChanges();
-
-                    await CreateRestaurantUser(model.EmailUserName, model.Password, entityRestaurant.Id);
-
-                    return Request.CreateResponse(HttpStatusCode.OK, new { RestaurantId = entityRestaurant.Id });
-                }
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
-
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
-        [HttpPost]
-        [Route("api/site/updateregister")]
-        public Task<HttpResponseMessage> UpdateRegister([FromBody] UpdateRegisterApiModel model)
-        {
-            return Task<HttpResponseMessage>.Factory.StartNew(() =>
-            {
-                try
-                {
-                    if (ModelState.IsValid)
-                    {
-                        var restaurant = CurrentAppContext.Restaurants
-                            .Include(r => r.Locations)
-                            .Include(r => r.Tags)
-                            .Include(r => r.Cards)
-                            .FirstOrDefault(r => r.Id == model.Id);
-
-                        if (restaurant == null)
-                            return Request.CreateResponse(HttpStatusCode.BadRequest, "Restaurant does not exist.");
-
-
-
-
+                        //new
                         var entityCards = CurrentAppContext.Cards.Where(c => model.Cards.Contains(c.Id)).ToList();
                         var entityTags = CurrentAppContext.Tags.Where(t => model.Tags.Contains(t.Id)).ToList();
 
+                        var entityRestaurant = new Restaurant
+                        {
+                            Id = Guid.NewGuid(),
+                            Name = model.Name,
+                            Email = model.Email,
+                            Description = model.Description,
+                            Url = FormatUrl(model.Url),
+                            Active = true,
+                        };
+
+                        entityCards.ForEach(c => entityRestaurant.Cards.Add(c));
+                        entityTags.ForEach(t => entityRestaurant.Tags.Add(t));
+
+
+                        user.Restaurant = entityRestaurant;
+                        CurrentAppContext.Restaurants.Add(entityRestaurant);
+                        CurrentAppContext.SaveChanges();
+                    }
+                    else //edit
+                    {
+                        restaurant.Name = model.Name;
+                        restaurant.Email = model.Email;
+                        restaurant.Description = model.Description;
+                        restaurant.Url = FormatUrl(model.Url);
+                        restaurant.Active = true;
+
+                        var entityCards = CurrentAppContext.Cards.Where(c => model.Cards.Contains(c.Id)).ToList();
+                        var entityTags = CurrentAppContext.Tags.Where(t => model.Tags.Contains(t.Id)).ToList();
 
                         restaurant.Tags.ToList().ForEach(tag => restaurant.Tags.Remove(tag));
                         restaurant.Cards.ToList().ForEach(card => restaurant.Cards.Remove(card));
@@ -180,26 +198,23 @@ namespace MenuDelDia.API.API.Site
                         entityTags.ForEach(t => restaurant.Tags.Add(t));
 
                         CurrentAppContext.SaveChanges();
-
-                        return Request.CreateResponse(HttpStatusCode.OK);
                     }
-                    return Request.CreateResponse(HttpStatusCode.BadRequest);
+
+                    return Request.CreateResponse(HttpStatusCode.OK);
                 }
-                catch (Exception)
-                {
-                    throw;
-                }
-            });
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+
+            }
+            catch (Exception)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
         }
 
 
-
-
-
-
         [HttpGet]
-        [Route("api/site/stores/{id:guid}")]
-        public Task<HttpResponseMessage> Stores([FromUri] Guid id)
+        [Route("api/site/stores/")]
+        public Task<HttpResponseMessage> Stores()
         {
             return Task<HttpResponseMessage>.Factory.StartNew(() =>
             {
@@ -210,7 +225,7 @@ namespace MenuDelDia.API.API.Site
                         var restaurant = CurrentAppContext.Restaurants
                                                           .Include(r => r.Locations)
                                                           .AsNoTracking()
-                                                          .FirstOrDefault(r => r.Id == id);
+                                                          .FirstOrDefault(r => r.Id == CurrentRestaurantId);
 
                         if (restaurant == null)
                             return Request.CreateResponse(HttpStatusCode.BadRequest, "Restaurant does not exist.");
@@ -231,7 +246,6 @@ namespace MenuDelDia.API.API.Site
                                     Longitude = l.Longitude,
                                 },
                                 Phone = l.Phone,
-                                RestaurantId = l.RestaurantId,
                                 Zone = l.Zone,
                             };
 
@@ -328,7 +342,7 @@ namespace MenuDelDia.API.API.Site
                     {
                         var restaurant = CurrentAppContext.Restaurants
                                                           .AsNoTracking()
-                                                          .FirstOrDefault(r => r.Id == model.RestaurantId);
+                                                          .FirstOrDefault(r => r.Id == CurrentRestaurantId);
 
                         if (restaurant == null)
                             return Request.CreateResponse(HttpStatusCode.BadRequest, "Restaurant does not exist.");
@@ -336,7 +350,6 @@ namespace MenuDelDia.API.API.Site
                         var location = new Location
                         {
                             Id = Guid.NewGuid(),
-                            RestaurantId = model.RestaurantId,
                             Identifier = model.Identifier,
                             Description = model.Features,
                             Phone = model.Phone,
@@ -386,11 +399,14 @@ namespace MenuDelDia.API.API.Site
             {
                 try
                 {
+                    if (CurrentRestaurantId == Guid.Empty)
+                        return Request.CreateResponse(HttpStatusCode.BadRequest, "Restaurant does not exist.");
+
                     if (ModelState.IsValid)
                     {
                         var restaurant = CurrentAppContext.Restaurants
                                                           .AsNoTracking()
-                                                          .FirstOrDefault(r => r.Id == model.RestaurantId);
+                                                          .FirstOrDefault(r => r.Id == CurrentRestaurantId);
 
                         if (restaurant == null)
                             return Request.CreateResponse(HttpStatusCode.BadRequest, "Restaurant does not exist.");
@@ -400,7 +416,7 @@ namespace MenuDelDia.API.API.Site
                         if (entityLocation == null)
                             return Request.CreateResponse(HttpStatusCode.BadRequest, "Location does not exist.");
 
-                        entityLocation.RestaurantId = model.RestaurantId;
+                        entityLocation.RestaurantId = CurrentRestaurantId;
                         entityLocation.Identifier = model.Identifier;
                         entityLocation.Description = model.Features;
                         entityLocation.Phone = model.Phone;
@@ -440,11 +456,33 @@ namespace MenuDelDia.API.API.Site
 
 
 
+        private Func<IList<Menu>, DayOfWeek, MenuApiModel> LoadMenu = (menus, day) =>
+        {
+            var menuForDay = new MenuApiModel { DayOfWeek = day };
 
+            switch (day)
+            {
+                case DayOfWeek.Monday: menus = menus.Where(m => m.MenuDays.Monday).ToList(); break;
+                case DayOfWeek.Tuesday: menus = menus.Where(m => m.MenuDays.Tuesday).ToList(); break;
+                case DayOfWeek.Wednesday: menus = menus.Where(m => m.MenuDays.Wednesday).ToList(); break;
+                case DayOfWeek.Thursday: menus = menus.Where(m => m.MenuDays.Thursday).ToList(); break;
+                case DayOfWeek.Friday: menus = menus.Where(m => m.MenuDays.Friday).ToList(); break;
+                case DayOfWeek.Saturday: menus = menus.Where(m => m.MenuDays.Saturday).ToList(); break;
+                case DayOfWeek.Sunday: menus = menus.Where(m => m.MenuDays.Sunday).ToList(); break;
+            }
+
+            menus.OrderBy(m => m.Name).ForEach(m => menuForDay.Menus.Add(new DailyMenuApiModel
+            {
+                Name = m.Name,
+                Description = m.Description,
+                Price = m.Cost,
+            }));
+            return menuForDay;
+        };
 
         [HttpGet]
-        [Route("api/site/menus/{id:guid}")]
-        public Task<HttpResponseMessage> Menus([FromUri] Guid id)
+        [Route("api/site/menus/")]
+        public Task<HttpResponseMessage> Menus()
         {
             return Task<HttpResponseMessage>.Factory.StartNew(() =>
             {
@@ -452,72 +490,34 @@ namespace MenuDelDia.API.API.Site
                 {
                     if (ModelState.IsValid)
                     {
-                        var restaurant = CurrentAppContext.Restaurants.FirstOrDefault(r => r.Id == id);
+                        if (CurrentRestaurantId == Guid.Empty)
+                            return Request.CreateResponse(HttpStatusCode.BadRequest, "Restaurant does not exist.");
+
+                        var restaurant = CurrentAppContext.Restaurants.FirstOrDefault(r => r.Id == CurrentRestaurantId);
                         if (restaurant == null)
                             return Request.CreateResponse(HttpStatusCode.BadRequest, "Restaurant does not exist.");
 
                         var locations = CurrentAppContext.Locations
                                                           .Include(r => r.Menus)
-                                                          .Where(l => l.RestaurantId == id)
+                                                          .Where(l => l.RestaurantId == CurrentRestaurantId)
                                                           .AsNoTracking()
                                                           .ToList();
                         if (locations.Any() == false || locations.All(l => l.Menus.Any()) == false)
                             return Request.CreateResponse(HttpStatusCode.OK);
 
-                        var menus = locations.SelectMany(l => l.Menus).Distinct(new MenuComparer()) .ToList();
-                        var monday = new MenuApiModel { DayOfWeek = DayOfWeek.Monday };
-                        menus.Where(m => m.MenuDays.Monday).ForEach(m => monday.Menus.Add(new DailyMenuApiModel
-                        {
-                            Name = m.Name,
-                            Description = m.Description,
-                            Price = m.Cost,
-                        }));
-                        var tuesday = new MenuApiModel { DayOfWeek = DayOfWeek.Tuesday };
-                        menus.Where(m => m.MenuDays.Tuesday).ForEach(m => tuesday.Menus.Add(new DailyMenuApiModel
-                        {
-                            Name = m.Name,
-                            Description = m.Description,
-                            Price = m.Cost,
-                        }));
-                        var wednesday = new MenuApiModel { DayOfWeek = DayOfWeek.Wednesday };
-                        menus.Where(m => m.MenuDays.Wednesday).ForEach(m => wednesday.Menus.Add(new DailyMenuApiModel
-                        {
-                            Name = m.Name,
-                            Description = m.Description,
-                            Price = m.Cost,
-                        }));
-                        var thursday = new MenuApiModel { DayOfWeek = DayOfWeek.Thursday };
-                        menus.Where(m => m.MenuDays.Thursday).ForEach(m => thursday.Menus.Add(new DailyMenuApiModel
-                        {
-                            Name = m.Name,
-                            Description = m.Description,
-                            Price = m.Cost,
-                        }));
-                        var friday = new MenuApiModel { DayOfWeek = DayOfWeek.Friday };
-                        menus.Where(m => m.MenuDays.Friday).ForEach(m => friday.Menus.Add(new DailyMenuApiModel
-                        {
-                            Name = m.Name,
-                            Description = m.Description,
-                            Price = m.Cost,
-                        }));
-                        var saturday = new MenuApiModel { DayOfWeek = DayOfWeek.Saturday };
-                        menus.Where(m => m.MenuDays.Saturday).ForEach(m => saturday.Menus.Add(new DailyMenuApiModel
-                        {
-                            Name = m.Name,
-                            Description = m.Description,
-                            Price = m.Cost,
-                        }));
-                        var sunday = new MenuApiModel { DayOfWeek = DayOfWeek.Sunday };
-                        menus.Where(m => m.MenuDays.Sunday).ForEach(m => sunday.Menus.Add(new DailyMenuApiModel
-                        {
-                            Name = m.Name,
-                            Description = m.Description,
-                            Price = m.Cost,
-                        }));
+                        var menus = locations.SelectMany(l => l.Menus).Distinct(new MenuComparer()).ToList();
+
+                        var monday = LoadMenu(menus, DayOfWeek.Monday);
+                        var tuesday = LoadMenu(menus, DayOfWeek.Tuesday);
+                        var wednesday = LoadMenu(menus, DayOfWeek.Wednesday);
+                        var thursday = LoadMenu(menus, DayOfWeek.Thursday);
+                        var friday = LoadMenu(menus, DayOfWeek.Friday);
+                        var saturday = LoadMenu(menus, DayOfWeek.Saturday);
+                        var sunday = LoadMenu(menus, DayOfWeek.Sunday);
 
                         var model = new RestaurantMenuApiModel
                         {
-                            RestaurantId = id,
+                            RestaurantId = CurrentRestaurantId,
                             Menus = new List<MenuApiModel>
                             {
                                 monday,
@@ -553,7 +553,7 @@ namespace MenuDelDia.API.API.Site
                     {
                         var restaurant = CurrentAppContext.Restaurants
                                                           .Include(r => r.Locations.Select(l => l.Menus))
-                                                          .FirstOrDefault(r => r.Id == model.RestaurantId);
+                                                          .FirstOrDefault(r => r.Id == CurrentRestaurantId);
 
                         if (restaurant == null)
                             return Request.CreateResponse(HttpStatusCode.BadRequest, "Restaurant does not exist.");
@@ -621,7 +621,7 @@ namespace MenuDelDia.API.API.Site
                     {
                         var restaurant = CurrentAppContext.Restaurants
                                                           .Include(r => r.Locations.Select(l => l.Menus))
-                                                          .FirstOrDefault(r => r.Id == model.RestaurantId);
+                                                          .FirstOrDefault(r => r.Id == CurrentRestaurantId);
 
                         if (restaurant == null)
                             return Request.CreateResponse(HttpStatusCode.BadRequest, "Restaurant does not exist.");

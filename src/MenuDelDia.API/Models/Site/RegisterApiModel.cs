@@ -22,16 +22,12 @@ namespace MenuDelDia.API.Models.Site
         public string Description { get; set; }
 
         public string Url { get; set; }
-
+        
         [EmailAddress]
         public string Email { get; set; }
 
         public IList<Guid> Cards { get; set; }
-
-        [EmailAddress]
-        public string EmailUserName { get; set; }
-
-        public string Password { get; set; }
+        
         public IList<Guid> Tags { get; set; }
     }
 }

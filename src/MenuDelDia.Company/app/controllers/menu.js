@@ -99,7 +99,6 @@
             $scope.loadingSave = true;
             menuService.addMenu(
                 {
-                    restaurantId:$stateParams.id,
                     menus:$scope.week
                 }).then(
                 function(){

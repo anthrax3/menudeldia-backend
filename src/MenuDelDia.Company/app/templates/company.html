@@ -26,9 +26,6 @@
                 <div class="form-group">
                     <input type="email" class="form-control input-lg" placeholder="Email" ng-model="company.email"/>
                 </div>
-                <div class="form-group">
-                    <input type="text" class="form-control input-lg" placeholder="Teléfono general" ng-model="company.phone"/>
-                </div>
                 <div class="row text-left">
                     <div class="col-md-12">
                         <h2><small>Caracter&iacute;sticas (seleccion&aacute; hasta 3 opciones)</small></h2>
@@ -44,23 +41,6 @@
                     </div>
                 </div>
                 <hr>
-                <div class="row well login-container" ng-if="!existingCompany">
-                    <h3>
-                        <small>Cre&aacute; tu cuenta en menu del d&iacute;a para acceder la informaci&oacute;n
-                            de tu empresa y administrar tu men&uacute; semanal. Al crear la cuenta aceptas nuestros
-                            <a href>t&eacute;rminos y condiciones</a></small>
-                    </h3>
-                    <div class="col-lg-3"></div>
-                    <div class="col-md-12 col-lg-6">
-                        <div class="form-group">
-                            <input type="text" class="form-control input-lg" placeholder="Nombre de usuario (email)" ng-model="user.userName"/>
-                        </div>
-                        <div class="form-group">
-                            <input type="password" class="form-control input-lg" placeholder="Contraseña" ng-model="user.password"/>
-                        </div>
-                    </div>
-                    <div class="col-lg-3"></div>
-                </div>
                 <div class="row button-container">
                     <div class="col-md-6">
                         <button ng-click="saveCompany()" type="submit" class="btn btn-primary btn-lg pull-left" ladda="loadingSave" data-style="expand-right">Guardar</button>

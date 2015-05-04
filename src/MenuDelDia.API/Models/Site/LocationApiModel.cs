@@ -12,8 +12,7 @@ namespace MenuDelDia.API.Models.Site
         }
 
         public Guid Id { get; set; }
-        public Guid RestaurantId { get; set; }
-
+        
         [Required(AllowEmptyStrings = false)]
         public string Identifier { get; set; }
 

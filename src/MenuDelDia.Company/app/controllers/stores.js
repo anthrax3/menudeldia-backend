@@ -3,11 +3,11 @@
 
     angular
         .module('menudeldia')
-        .controller('storesCtrl', stores);
+        .controller('storesCtrl', storesCtrl);
 
-    stores.$inject = ['$scope', '$rootScope', '$state', '$stateParams', 'companyService', '$timeout', '$log','companyInfo','storesService','stores'];
+    storesCtrl.$inject = ['$scope', '$rootScope', '$state', '$stateParams', 'companyService', '$timeout', '$log', 'companyInfo', 'storesService', 'stores'];
 
-    function stores($scope, $rootScope, $state, $stateParams, companyService, $timeout,$log, companyInfo, storesService,stores) {
+    function storesCtrl($scope, $rootScope, $state, $stateParams, companyService, $timeout, $log, companyInfo, storesService, stores) {
 
         $scope.showStore = showStore;
         $scope.addStore = addStore;
@@ -28,7 +28,6 @@
         }
 
         function loadCompanyStores(){
-            debugger;
             $scope.stores = stores;
 
             $scope.showForm = false;
@@ -54,8 +53,7 @@
                 features: store.features,
                 delivery: store.delivery,
                 days : store.days,
-                location: store.location,
-                restaurantId:store.restaurantId
+                location: store.location
             };
 
             $scope.markerOn = true;
@@ -76,14 +74,12 @@
             debugger;
 
             if($scope.store.id == null){
-                $scope.store.restaurantId = $stateParams.id;
                 storesService.addStore($scope.store)
                     .then(
                     function(result) {
                         $scope.store.id = result.id;
                         $scope.stores.push($scope.store);
-
-
+                        
                         $scope.loadingSave = false;
                         $scope.showForm = false;
 
@@ -98,10 +94,10 @@
             else{
                 storesService.updateStore($scope.store)
                     .then(
-                    function(result) {
+                    function(resultUpdate) {
                         storesService.stores($stateParams.id).then(
-                            function (result){
-                                $scope.stores=result;
+                            function (resultStores){
+                                $scope.stores = resultStores;
                                 $scope.loadingSave = false;
                                 $scope.showForm = false;
 
@@ -126,7 +122,7 @@
 
         function nextStep(){
             $scope.loadingNextStep = true;
-            $state.go('menu',{id:$stateParams.id});
+            $state.go('menu');
             $scope.loadingNextStep = false;
         }
 
