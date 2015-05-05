@@ -8,6 +8,10 @@
             Arrastr&aacute; aqu&iacute; el logo de tu empresa
         </div>
         <input ng-if="uploader.queue.length == 0" type="file" nv-file-select uploader="uploader"/>
+        
+        <div>
+            <a href="{{company.logoPath}}" target="_blank"><i class="fa fa-trash"></i> Descargar imagen</a>
+        </div>
     </div>
     <div class="col-md-9">
             <form>
