@@ -5,10 +5,14 @@ namespace MenuDelDia.API.Models.Site
 {
     public class RestaurantMenuApiModel
     {
+        public RestaurantMenuApiModel()
+        {
+            Menus = new List<MenuApiModel>();
+        }
+
         public Guid RestaurantId { get; set; }
 
         public IList<MenuApiModel> Menus { get; set; }
-
     }
 
     public class MenuApiModel
