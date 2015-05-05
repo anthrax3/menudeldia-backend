@@ -16,7 +16,8 @@ namespace MenuDelDia.Admin
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Start", action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "MenuDelDia.Admin.Controllers" }  
             );
         }
     }

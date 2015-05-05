@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace MenuDelDia.Admin.Controllers
 {
-    public class HomeController : Controller
+    public class StartController : Controller
     {
         public ActionResult Index()
         {
