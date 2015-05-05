@@ -28,6 +28,7 @@ namespace MenuDelDia.API.API.Site
                     _db = new AppContext();
                     _db.Configuration.AutoDetectChangesEnabled = true;
                     _db.Configuration.LazyLoadingEnabled = false;
+                    _db.Configuration.ProxyCreationEnabled = false;
                 }
 
                 return _db;

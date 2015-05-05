@@ -152,7 +152,6 @@ namespace MenuDelDia.API.API.Site
 
                     if (restaurant == null)
                     {
-
                         var user = CurrentAppContext.Users.FirstOrDefault(u => u.Id == CurrentUserId);
 
                         if (user == null)

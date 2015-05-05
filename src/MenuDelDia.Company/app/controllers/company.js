@@ -45,20 +45,22 @@
         }
 
         function uploadImage() {
-            //$scope.uploader.queue[0].upload(); //Manage errors
+            debugger;
+            $scope.uploader.queue[0].upload(); //Manage errors
         }
 
         function saveCompany() {
             $scope.loadingSave = true;
 
-            uploadImage();
+            
 
             //set new tags
             $scope.company.tags = _.pluck(_.filter($scope.tags, function (i) { return i.selected }), 'id');
             
             companyService.save($scope.company)
                 .then(
-                    function(result) {
+                    function (result) {
+                        uploadImage();
                         $scope.loadingSave = false;
                     },
                     function(result) {
@@ -74,11 +76,23 @@
 
         function initImageUpload() {
             //Image upload
-            $scope.uploader = new FileUploader();
+            debugger;
+            $scope.uploader = new FileUploader({
+                url:"http://localhost:45291/api/site/file/upload"
+            });
 
+            $scope.uploader.onSuccessItem = function (item, response, status, headers) {
+                
+            }
+            $scope.uploader.onErrorItem = function (item, response, status, headers) {
+
+            }
+            $scope.uploader.onCompleteItem = function (item, response, status, headers) {
+
+            }
             $scope.uploader.filters.push({
                 name: 'imageFilter',
-                fn: function (item /*{File|FileLikeObject}*/, options) {
+                fn: function (item, options) {
                     var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
                     return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
                 }

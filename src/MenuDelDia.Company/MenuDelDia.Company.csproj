@@ -8561,7 +8561,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="bower_components\angular-ui-router\api\angular-ui-router.d.ts" />
     <TypeScriptCompile Include="node_modules\bower\node_modules\inquirer\node_modules\rx\src\core\expressions\compiler.ts" />
     <TypeScriptCompile Include="node_modules\bower\node_modules\inquirer\node_modules\rx\ts\rx-lite.d.ts" />
     <TypeScriptCompile Include="node_modules\bower\node_modules\inquirer\node_modules\rx\ts\rx.aggregates.d.ts" />
@@ -8586,6 +8585,7 @@
     <TypeScriptCompile Include="node_modules\bower\node_modules\inquirer\node_modules\rx\ts\rx.virtualtime.d.ts" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="bower_components\angular-ui-router\api\" />
     <Folder Include="node_modules\bower\node_modules\update-notifier\node_modules\latest-version\node_modules\package-json\node_modules\got\node_modules\duplexify\node_modules\end-of-stream\node_modules\once\node_modules\" />
     <Folder Include="node_modules\bower\node_modules\update-notifier\node_modules\latest-version\node_modules\package-json\node_modules\got\node_modules\duplexify\node_modules\readable-stream\node_modules\core-util-is\lib\" />
     <Folder Include="node_modules\bower\node_modules\update-notifier\node_modules\latest-version\node_modules\package-json\node_modules\got\node_modules\read-all-stream\node_modules\readable-stream\node_modules\core-util-is\" />

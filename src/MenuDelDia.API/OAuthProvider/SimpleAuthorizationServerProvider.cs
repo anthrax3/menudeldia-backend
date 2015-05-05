@@ -21,6 +21,7 @@ namespace MenuDelDia.API.OAuthProvider
 
         public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
+            await Task.FromResult(0);
             context.Validated();
         }
 

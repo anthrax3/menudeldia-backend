@@ -71,11 +71,7 @@ angular
         });
 
         $rootScope.$on('$stateChangeStart', function (event,toState,a,b,c) {
-            debugger;
-            
             if (toState.name != 'account' && authService.isLoggedIn() == false)
                 $state.go("account");
-
         });
-
     });
