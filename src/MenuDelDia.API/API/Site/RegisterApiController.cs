@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using MenuDelDia.API.Models.Site;
 using MenuDelDia.Entities;
@@ -106,6 +108,13 @@ namespace MenuDelDia.API.API.Site
         [Route("api/site/companyInfo")]
         public Task<HttpResponseMessage> CompanyInfo()
         {
+
+            var baseUrl = string.Format("{0}://{1}/{2}",
+                HttpContext.Current.Request.Url.Scheme,
+                HttpContext.Current.Request.Url.Authority,
+                "api/site/file/view/");
+
+
             return Task<HttpResponseMessage>.Factory.StartNew(() =>
             {
                 try
@@ -126,6 +135,8 @@ namespace MenuDelDia.API.API.Site
                         Url = UnFormatUrl(restaurant.Url),
                         Cards = restaurant.Cards.Select(c => c.Id).ToList(),
                         Tags = restaurant.Tags.Select(t => t.Id).ToList(),
+                        LogoPath = string.Format("{0}{1}", baseUrl, restaurant.LogoPath.Substring(0, restaurant.LogoPath.LastIndexOf('.'))),
+                        HasImage = (string.IsNullOrEmpty(restaurant.LogoPath)),
                     };
                     return Request.CreateResponse(HttpStatusCode.OK, registerApiModel);
                 }

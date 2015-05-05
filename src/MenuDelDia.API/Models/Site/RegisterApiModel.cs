@@ -29,5 +29,7 @@ namespace MenuDelDia.API.Models.Site
         public IList<Guid> Cards { get; set; }
         
         public IList<Guid> Tags { get; set; }
+        
+        public bool HasImage { get; set; }
     }
 }

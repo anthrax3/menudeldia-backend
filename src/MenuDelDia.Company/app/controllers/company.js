@@ -5,9 +5,9 @@
         .module('menudeldia')
         .controller('companyCtrl', company);
 
-    company.$inject = ['$scope', '$rootScope', '$state', '$stateParams', '$timeout', 'FileUploader', 'companyService', 'configService', 'authService', 'companyInfo','tags'];
+    company.$inject = ['$scope', '$rootScope', '$state', '$stateParams', '$timeout', 'FileUploader', 'companyService', 'configService', 'authService', 'companyInfo', 'tags', 'localStorageService'];
 
-    function company($scope, $rootScope, $state, $stateParams, $timeout, FileUploader, companyService, configService, authService, companyInfo,tags) {
+    function company($scope, $rootScope, $state, $stateParams, $timeout, FileUploader, companyService, configService, authService, companyInfo, tags, localStorageService) {
 
         //function definition
         $scope.nextStep = nextStep;
@@ -45,25 +45,25 @@
         }
 
         function uploadImage() {
-            debugger;
             $scope.uploader.queue[0].upload(); //Manage errors
         }
 
         function saveCompany() {
             $scope.loadingSave = true;
 
-            
-
             //set new tags
             $scope.company.tags = _.pluck(_.filter($scope.tags, function (i) { return i.selected }), 'id');
-            
+
             companyService.save($scope.company)
                 .then(
                     function (result) {
-                        uploadImage();
-                        $scope.loadingSave = false;
+                        if ($scope.uploader.queue.length != 0) {
+                            uploadImage();
+                        } else {
+                            $scope.loadingSave = false;
+                        }
                     },
-                    function(result) {
+                    function (result) {
 
                     });
         }
@@ -76,19 +76,23 @@
 
         function initImageUpload() {
             //Image upload
-            debugger;
+            var authData = localStorageService.get('authorizationData');
             $scope.uploader = new FileUploader({
-                url:"http://localhost:45291/api/site/file/upload"
+                url: "http://localhost:45291/api/site/file/upload",
+                headers: { Authorization: 'Bearer ' + authData.token }
             });
 
             $scope.uploader.onSuccessItem = function (item, response, status, headers) {
-                
+                $scope.loadingSave = false;
+                $state.reload();
             }
             $scope.uploader.onErrorItem = function (item, response, status, headers) {
-
+                $scope.loadingSave = false;
+                $state.reload();
             }
             $scope.uploader.onCompleteItem = function (item, response, status, headers) {
-
+                $scope.loadingSave = false;
+                $state.reload();
             }
             $scope.uploader.filters.push({
                 name: 'imageFilter',

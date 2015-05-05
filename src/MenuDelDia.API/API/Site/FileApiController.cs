@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Runtime.Remoting.Channels;
 using System.Web;
 using System.Web.Http;
@@ -36,12 +37,46 @@ namespace MenuDelDia.API.API.Site
             restaurant.LogoExtension = extension;
             restaurant.LogoName = name;
             restaurant.LogoPath = name;
-            
+
             CurrentAppContext.SaveChanges();
+
+            if (string.IsNullOrEmpty(restaurant.LogoPath) == false)
+            {
+                var oldImage = new FileInfo(Path.Combine(path, restaurant.LogoName));
+                if (oldImage.Exists)
+                    oldImage.Delete();
+            }
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }
+
+
+        [HttpGet]
+        [Route("api/site/file/view/{imageName}")]
+        public HttpResponseMessage View(string imageName)
+        {
+            if (string.IsNullOrEmpty(imageName))
+                return null;
+
+            var path = HttpContext.Current.Request.MapPath("~/RestaurantImages");
+
+            var directory = new DirectoryInfo(path);
+            var file = directory.EnumerateFiles().FirstOrDefault(f => f.Name.StartsWith(imageName));
+
+            if (file == null)
+                return null;
+
+            var extension = file.Name.Substring(file.Name.LastIndexOf('.'));
+
+            var result = new HttpResponseMessage(HttpStatusCode.OK);
+            Stream stream = new MemoryStream(File.ReadAllBytes(file.FullName));
+            result.Content = new StreamContent(stream);
+            result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
+            result.Content.Headers.ContentDisposition.FileName = Path.GetFileName(file.Name);
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue(string.Format("image/{0}", extension.Replace(".", "").ToLower()));
+            result.Content.Headers.ContentLength = stream.Length;
+            return result;
+
+        }
     }
 }
-
-
