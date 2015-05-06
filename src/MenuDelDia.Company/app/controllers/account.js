@@ -5,9 +5,9 @@
         .module('menudeldia')
         .controller('accountCtrl', account);
 
-    account.$inject = ['$scope', '$rootScope', '$state', '$stateParams', '$timeout', 'authService'];
+    account.$inject = ['$scope', '$rootScope', '$state', '$stateParams', '$timeout', 'authService', 'toaster', 'helperService'];
 
-    function account($scope, $rootScope, $state, $stateParams, $timeout, authService) {
+    function account($scope, $rootScope, $state, $stateParams, $timeout, authService, toaster, helperService) {
 
         //function definition
         $scope.signIn = signIn;
@@ -47,7 +47,6 @@
 
             authService.signIn($scope.userSignIn)
                        .then(function (resultRegister) {
-                           debugger;
                            authService.login({ userName: $scope.userSignIn.email, password: $scope.userSignIn.password })
                                       .then(function (resultLogin) {
                                           $state.go('company');
@@ -61,6 +60,7 @@
                        function (resultRegister) {
                            $scope.signInSubmit = false;
                            $scope.loadingSignIn = false;
+                           helperService.processError(resultRegister, toaster);
                        });
         }
 
@@ -80,8 +80,10 @@
                        function (result) {
                            $scope.logInSubmit = false;
                            $scope.loadingLogIn = false;
+                           helperService.processError(result, toaster);
                        });
         }
+
     }
 })();
 

@@ -61,6 +61,7 @@
   <ItemGroup>
     <Content Include="app\controllers\account.js" />
     <Content Include="app\services\authInterceptorService.js" />
+    <Content Include="app\services\helpersService.js" />
     <Content Include="app\templates\account.html" />
     <Content Include="assets\font-awesome-4.3.0\fonts\fontawesome-webfont.eot" />
     <Content Include="assets\font-awesome-4.3.0\fonts\fontawesome-webfont.ttf" />
@@ -93,7 +94,11 @@
     <Content Include="assets\font-awesome-4.3.0\scss\_rotated-flipped.scss" />
     <Content Include="assets\font-awesome-4.3.0\scss\_stacked.scss" />
     <Content Include="assets\font-awesome-4.3.0\scss\_variables.scss" />
+    <Content Include="assets\js\toasterEdit.js" />
     <Content Include="bower.json" />
+    <Content Include="bower_components\angular-animate\angular-animate.js" />
+    <Content Include="bower_components\angular-animate\angular-animate.min.js" />
+    <Content Include="bower_components\angular-animate\index.js" />
     <Content Include="bower_components\angular-bootstrap\.bower.json" />
     <Content Include="bower_components\angular-bootstrap\bower.json" />
     <Content Include="bower_components\angular-file-upload\.bower.json" />
@@ -136,6 +141,11 @@
     <Content Include="bower_components\angular-ui-router\CONTRIBUTING.md" />
     <Content Include="bower_components\angular-ui-router\LICENSE" />
     <Content Include="bower_components\angular-ui-router\README.md" />
+    <Content Include="bower_components\angularjs-toaster\index.js" />
+    <Content Include="bower_components\angularjs-toaster\toaster.css" />
+    <Content Include="bower_components\angularjs-toaster\toaster.js" />
+    <Content Include="bower_components\angularjs-toaster\toaster.min.css" />
+    <Content Include="bower_components\angularjs-toaster\toaster.min.js" />
     <Content Include="bower_components\angular\.bower.json" />
     <Content Include="bower_components\angular\angular.min.js.gzip" />
     <Content Include="bower_components\angular\angular.min.js.map" />
@@ -2913,6 +2923,17 @@
     <Content Include="bower_components\angular-local-storage\LICENSE" />
     <Content Include="bower_components\angular-local-storage\package.json" />
     <Content Include="bower_components\angular-local-storage\README.md" />
+    <Content Include="bower_components\angular-animate\.bower.json" />
+    <Content Include="bower_components\angular-animate\angular-animate.min.js.map" />
+    <Content Include="bower_components\angular-animate\bower.json" />
+    <Content Include="bower_components\angular-animate\package.json" />
+    <Content Include="bower_components\angular-animate\README.md" />
+    <Content Include="bower_components\angularjs-toaster\.bower.json" />
+    <Content Include="bower_components\angularjs-toaster\bower.json" />
+    <Content Include="bower_components\angularjs-toaster\LICENSE" />
+    <Content Include="bower_components\angularjs-toaster\package.json" />
+    <Content Include="bower_components\angularjs-toaster\README.md" />
+    <Content Include="bower_components\angularjs-toaster\toaster.scss" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

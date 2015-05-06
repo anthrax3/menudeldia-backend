@@ -5,16 +5,17 @@
         .module('menudeldia')
         .controller('companyCtrl', company);
 
-    company.$inject = ['$scope', '$rootScope', '$state', '$stateParams', '$timeout', 'FileUploader', 'companyService', 'configService', 'authService', 'companyInfo', 'tags', 'localStorageService'];
+    company.$inject = ['$scope', '$rootScope', '$state', '$stateParams', '$timeout', 'FileUploader', 'companyService', 'configService', 'authService', 'companyInfo', 'tags', 'localStorageService', 'toaster', 'helperService'];
 
-    function company($scope, $rootScope, $state, $stateParams, $timeout, FileUploader, companyService, configService, authService, companyInfo, tags, localStorageService) {
+    function company($scope, $rootScope, $state, $stateParams, $timeout, FileUploader, companyService, configService, authService, companyInfo, tags, localStorageService, toaster, helperService) {
 
         //function definition
         $scope.nextStep = nextStep;
         $scope.saveCompany = saveCompany;
-
+        $scope.companySubmit = false;
         //initialize controller
         activate();
+
 
         //functions
 
@@ -48,11 +49,36 @@
             $scope.uploader.queue[0].upload(); //Manage errors
         }
 
-        function saveCompany() {
-            $scope.loadingSave = true;
+        function isCompanyValid(isValid) {
+            if (isValid === false) {
+                $scope.companySubmit = true;
+                toaster.error("Campos incompletos", "Completa los campos marcados en rojo para continuar", 5000, 'trustedHtml');
+                return false;
+            }
 
-            //set new tags
+            if ($scope.company.tags.length === 0) {
+                toaster.error("Ha ocurrido un error", "Debes seleccionar al menos una característica", 5000, 'trustedHtml');
+                return false;
+            }
+            if ($scope.company.tags.length > 3) {
+                toaster.error("Ha ocurrido un error", "Debes seleccionar como máximo 3 características", 5000, 'trustedHtml');
+                return false;
+            }
+            if ($scope.uploader.queue.length == 0) {
+                toaster.error("Logo de tu empresa", "Debes subir un logo de tu empresa", 5000, 'trustedHtml');
+                return false;
+            }
+            return true;
+        }
+
+        function saveCompany(isValid) {
+            
             $scope.company.tags = _.pluck(_.filter($scope.tags, function (i) { return i.selected }), 'id');
+
+            if (!isCompanyValid(isValid))
+                return;
+
+            $scope.loadingSave = true;
 
             companyService.save($scope.company)
                 .then(
@@ -64,14 +90,34 @@
                         }
                     },
                     function (result) {
-
+                        helperService.processError(result, toaster);
                     });
         }
 
-        function nextStep() {
+        function nextStep(isValid) {
+
+            if (!isCompanyValid(isValid))
+                return;
+
             $scope.loadingNextStep = true;
-            $state.go('stores');
-            $scope.loadingNextStep = false;
+            //set new tags
+            $scope.company.tags = _.pluck(_.filter($scope.tags, function (i) { return i.selected }), 'id');
+
+            companyService.save($scope.company)
+                .then(
+                    function (result) {
+                        if ($scope.uploader.queue.length != 0) {
+                            uploadImage();
+                            $state.go('stores');
+                            $scope.loadingNextStep = false;
+                        } else {
+                            $scope.loadingNextStep = false;
+                        }
+                    },
+                    function (result) {
+
+                    });
+            
         }
 
         function initImageUpload() {
@@ -84,15 +130,16 @@
 
             $scope.uploader.onSuccessItem = function (item, response, status, headers) {
                 $scope.loadingSave = false;
-                $state.reload();
+                //$state.reload();
             }
             $scope.uploader.onErrorItem = function (item, response, status, headers) {
                 $scope.loadingSave = false;
-                $state.reload();
+                ///$state.reload();
+                helperService.processError(response, toaster);
             }
             $scope.uploader.onCompleteItem = function (item, response, status, headers) {
                 $scope.loadingSave = false;
-                $state.reload();
+                //$state.reload();
             }
             $scope.uploader.filters.push({
                 name: 'imageFilter',
@@ -103,18 +150,15 @@
             });
         }
 
-        //        $scope.$watch('company', function() {
-        //            $scope.showNextStep = ($scope.company.name != "")
-        //                && ($scope.company.description != "")
-        //                && ($scope.company.url != "")
-        //                && ($scope.company.email != "")
-        //                && ($scope.company.phone != "");
-        //                //&& (!$scope.existingCompany
-        //                //    && $scope.user.userName != "" //if first time also check for user and password
-        //                //    && $scope.user.password != "");
-        //
-        //        },
-        //        true);
+        $scope.$watch('tags', function() {
+
+            var tags = _.pluck(_.filter($scope.tags, function (i) { return i.selected }), 'id');
+            if (tags.length === 3)
+                $scope.tagsDisabled = true;
+            else
+                $scope.tagsDisabled = false;
+
+        },true);
     }
 })();
 

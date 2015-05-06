@@ -67,6 +67,11 @@
     <Compile Include="Interfaces\IRestaurantRepository.cs" />
     <Compile Include="Interfaces\ISuggestionRepository.cs" />
     <Compile Include="Interfaces\ITagRepository.cs" />
+    <Compile Include="Migrations\201505010357460_InitialCreate.cs" />
+    <Compile Include="Migrations\201505010357460_InitialCreate.Designer.cs">
+      <DependentUpon>201505010357460_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -78,6 +83,11 @@
       <Project>{715CE35F-09B6-458F-9ADD-CCB0B92F9908}</Project>
       <Name>MenuDelDia.Entities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201505010357460_InitialCreate.resx">
+      <DependentUpon>201505010357460_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
