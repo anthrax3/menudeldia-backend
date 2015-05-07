@@ -138,8 +138,8 @@ namespace MenuDelDia.API.API.Site
                         Url = UnFormatUrl(restaurant.Url),
                         Cards = restaurant.Cards.Select(c => c.Id).ToList(),
                         Tags = restaurant.Tags.Select(t => t.Id).ToList(),
-                        LogoPath = string.Format("{0}{1}", baseUrl, restaurant.LogoPath.Substring(0, restaurant.LogoPath.LastIndexOf('.'))),
-                        HasImage = (string.IsNullOrEmpty(restaurant.LogoPath) == false),
+                        LogoPath = !string.IsNullOrEmpty(restaurant.LogoPath) ? string.Format("{0}{1}", baseUrl, restaurant.LogoPath.Substring(0, restaurant.LogoPath.LastIndexOf('.'))) : "",
+                        HasImage = (string.IsNullOrEmpty(restaurant.LogoPath))
                     };
                     return Request.CreateResponse(HttpStatusCode.OK, registerApiModel);
                 }

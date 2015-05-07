@@ -78,6 +78,7 @@
                            $scope.loadingLogIn = false;
                        },
                        function (result) {
+                           debugger;
                            $scope.logInSubmit = false;
                            $scope.loadingLogIn = false;
                            helperService.processError(result, toaster);
