@@ -20,7 +20,6 @@ namespace MenuDelDia.API.Models
 
         public Guid Id { get; set; }
 
-        [Required(AllowEmptyStrings = false)]
         [DisplayName("Identificador")]
         public string Identifier { get; set; }
 
@@ -32,8 +31,6 @@ namespace MenuDelDia.API.Models
         [DisplayName("Teléfono")]
         public string Phone { get; set; }
 
-        [Required(AllowEmptyStrings = false)]
-        [DisplayName("Características del local")]
         public string Description { get; set; }
 
         [DisplayName("Delivery")]

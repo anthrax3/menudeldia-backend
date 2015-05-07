@@ -71,6 +71,14 @@
     <Compile Include="Migrations\201505010357460_InitialCreate.Designer.cs">
       <DependentUpon>201505010357460_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201505072149239_store_description_required.cs" />
+    <Compile Include="Migrations\201505072149239_store_description_required.Designer.cs">
+      <DependentUpon>201505072149239_store_description_required.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505072154196_identifier_optional.cs" />
+    <Compile Include="Migrations\201505072154196_identifier_optional.Designer.cs">
+      <DependentUpon>201505072154196_identifier_optional.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -87,6 +95,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201505010357460_InitialCreate.resx">
       <DependentUpon>201505010357460_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505072149239_store_description_required.resx">
+      <DependentUpon>201505072149239_store_description_required.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505072154196_identifier_optional.resx">
+      <DependentUpon>201505072154196_identifier_optional.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

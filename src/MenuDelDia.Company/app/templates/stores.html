@@ -40,13 +40,15 @@
             </div>
             <div class="row text-left">
                 <div class="col-md-12">
-                    <h1><small>Horarios</small></h1>
+                    <h1><small>Horarios</small>
+                    </h1>
                 </div>
             </div>
             <div class="timetable-container">
                 <div class="row well" ng-repeat="day in store.days">
                     <div class="col-md-2 text-left">
-                        <h2><small>{{day.name}}</small></h2>
+                        <h2><small>{{day.name}}</small>
+                        </h2>
                     </div>
                     <div class="col-md-2">
                         <select class="form-control" ng-model="day.from" ng-options="hour for hour in hours track by hour"></select>
@@ -83,13 +85,6 @@
                 <div class="col-lg-2"></div>
             </div>
 
-            <div class="row" ng-hide="showForm">
-                <div class="col-lg-2"></div>
-                <div class="col-lg-8 col-md-12 well add-store-container" ng-click="addStore()">
-                    <i class="fa fa-plus"></i> <label>AGREGAR UN LOCAL</label>
-                </div>
-                <div class="col-lg-2"></div>
-            </div>
             <div class="row button-container">
                 <div class="col-md-6 col-lg-6">
                     <button ng-click="save(storeForm.$valid)" type="submit" class="btn btn-primary btn-lg pull-left" ladda="loadingSave" data-style="expand-right">Guardar</button>
@@ -99,6 +94,13 @@
                 </div>
             </div>
         </form>
+    </div>
+    <div class="col-lg-2"></div>
+</div>
+<div class="row" ng-hide="showForm">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8 col-md-12 well add-store-container" ng-click="addStore()">
+        <i class="fa fa-plus"></i> <label>AGREGAR UN LOCAL</label>
     </div>
     <div class="col-lg-2"></div>
 </div>

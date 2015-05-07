@@ -23,7 +23,6 @@ namespace MenuDelDia.Entities
         public override Guid Id { get; set; }
 
 
-        [Required(AllowEmptyStrings = false, ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(MessagesResource))]
         [DisplayName("Identificador")]
         public string Identifier { get; set; }
 
@@ -35,7 +34,6 @@ namespace MenuDelDia.Entities
         [DisplayName("Teléfono")]
         public string Phone { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(MessagesResource))]
         [DisplayName("Descripción")]
         public string Description { get; set; }
 

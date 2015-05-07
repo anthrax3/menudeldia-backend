@@ -13,7 +13,6 @@ namespace MenuDelDia.API.Models.Site
 
         public Guid Id { get; set; }
         
-        [Required(AllowEmptyStrings = false)]
         public string Identifier { get; set; }
 
         public string Zone { get; set; }

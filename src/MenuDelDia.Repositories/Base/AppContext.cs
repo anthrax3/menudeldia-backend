@@ -34,6 +34,8 @@ namespace MenuDelDia.Repository
             //modelBuilder.Conventions.Remove<PluralizingEntitySetNameConvention>();
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
+            modelBuilder.Entity<Location>().Property(t => t.Description).IsOptional();
+            modelBuilder.Entity<Location>().Property(t => t.Identifier).IsOptional();
         }
         public static AppContext Create()
         {
