@@ -14,16 +14,5 @@ namespace MenuDelDia.API.API.Site
     {
 
 
-        [HttpGet]
-        [Route("api/site/restaurant")]
-        public HttpResponseMessage Get()
-        {
-            var restaurant = CurrentAppContext.Restaurants.Where(r => r.Id == CurrentRestaurantId).AsNoTracking().FirstOrDefault();
-            if (restaurant != null)
-            {
-                return Request.CreateResponse(HttpStatusCode.OK, restaurant);
-            }
-            return Request.CreateResponse(HttpStatusCode.BadRequest);
-        }
     }
 }

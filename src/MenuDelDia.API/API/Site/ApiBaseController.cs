@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Data.Entity.Spatial;
 using System.Globalization;
 using System.Linq;
@@ -109,13 +110,23 @@ namespace MenuDelDia.API.API.Site
                 if (userClaim.Identity.IsAuthenticated == false)
                     throw new ApplicationException("User must be authenticated.");
 
-                var restaurantIdClaim = userClaim.Claims.First(c => c.Type == "restaurantId");
+                var restaurantIdClaim = userClaim.Claims.FirstOrDefault(c => c.Type == "restaurantId");
                 Guid restaurantId;
+                if (restaurantIdClaim != null
+                    && string.IsNullOrEmpty(restaurantIdClaim.Value) == false
+                    && Guid.TryParse(restaurantIdClaim.Value, out restaurantId))
+                {
+                    if (restaurantId != Guid.Empty)
+                        return restaurantId;
+                }
 
-                if (Guid.TryParse(restaurantIdClaim.Value, out restaurantId))
-                    return restaurantId;
-
-                return Guid.Empty;
+                var user = CurrentAppContext.Users
+                                            .AsNoTracking()
+                                            .FirstOrDefault(u => u.Id == CurrentUserId);
+                
+                return (user!= null && user.RestaurantId.HasValue)
+                        ? user.RestaurantId.Value
+                        : Guid.Empty;
             }
         }
 
