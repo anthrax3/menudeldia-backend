@@ -5,15 +5,17 @@
         .module('menudeldia')
         .controller('storesCtrl', storesCtrl);
 
-    storesCtrl.$inject = ['$scope', '$rootScope', '$state', '$stateParams', 'companyService', '$timeout', '$log', 'companyInfo', 'storesService', 'stores', 'helperService'];
+    storesCtrl.$inject = [
+        '$scope', '$rootScope', '$state', '$stateParams', 'companyService', '$timeout', '$log', 'companyInfo', 'storesService', 'stores', 'helperService', 'toaster'];
 
-    function storesCtrl($scope, $rootScope, $state, $stateParams, companyService, $timeout, $log, companyInfo, storesService, stores, helperService) {
+    function storesCtrl($scope, $rootScope, $state, $stateParams, companyService, $timeout, $log, companyInfo, storesService, stores, helperService, toaster) {
 
         $scope.showStore = showStore;
         $scope.addStore = addStore;
         $scope.save = save;
         $scope.nextStep = nextStep;
         $scope.toggleOpenDay = toggleOpenDay;
+        $scope.storeSubmit = false;
 
         $scope.companyName = companyInfo.name;
 
@@ -67,8 +69,13 @@
             };
         }
 
-        function save(){
+        function save(isValid){
             $scope.loadingSave = true;
+            if (!isStoreValid(isValid)) {
+                $scope.loadingSave = false;
+                return;
+            }
+
             $scope.store.location.latitude = $scope.marker.coords.latitude;
             $scope.store.location.longitude = $scope.marker.coords.longitude;
 
@@ -119,7 +126,7 @@
             }
         }
 
-        function nextStep(){
+        function nextStep(isValid){
             $scope.loadingNextStep = true;
             $state.go('menu');
             $scope.loadingNextStep = false;
@@ -175,6 +182,38 @@
                     longitude: null
                 }
             };
+        }
+
+        function isStoreValid(isValid) {
+            if (isValid === false) {
+                $scope.storeSubmit = true;
+                toaster.error("Campos incompletos", "Completa los campos marcados en rojo para continuar", 5000, 'trustedHtml');
+                return false;
+            }
+            if ($scope.marker == undefined) {
+                toaster.error("Falta ubicacion", "Selecciona la ubicacion del local en el mapa", 5000, 'trustedHtml');
+                return false;
+            }
+
+            if (_.every($scope.store.days, { open: false })) {
+                toaster.error("No hay dias abierto", "No abres ningun dia! No podemos cargar tu menu semanal :)", 5000, 'trustedHtml');
+                return false;
+            }
+
+            /*
+            if ($scope.company.tags.length === 0) {
+                toaster.error("Ha ocurrido un error", "Debes seleccionar al menos una característica", 5000, 'trustedHtml');
+                return false;
+            }
+            if ($scope.company.tags.length > 3) {
+                toaster.error("Ha ocurrido un error", "Debes seleccionar como máximo 3 características", 5000, 'trustedHtml');
+                return false;
+            }
+            if ($scope.uploader.queue.length == 0) {
+                toaster.error("Logo de tu empresa", "Debes subir un logo de tu empresa", 5000, 'trustedHtml');
+                return false;
+            }*/
+            return true;
         }
 
         //$scope.$watch('stores', function() {

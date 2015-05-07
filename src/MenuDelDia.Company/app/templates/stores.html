@@ -1,7 +1,7 @@
 <div class="row" ng-if="showForm">
     <div class="col-lg-2"></div>
     <div class="col-md-12 col-lg-8 store-form">
-        <form>
+        <form name="storeForm" novalidate>
             <div class="form-group">
                 <input type="text" class="form-control input-lg" placeholder="Identificador" ng-model="store.identifier">
                 <p class="help-block text-left">
@@ -21,11 +21,13 @@
                     <option>Punta Carretas</option>
                 </select>
             </div>
-            <div class="form-group">
-                <input type="text" class="form-control input-lg" placeholder="Dirección" ng-model="store.address">
+            <div class="form-group" ng-class="{ 'has-error' : (storeForm.address.$invalid && !storeForm.address.$pristine) ||
+                                                                      (storeForm.address.$invalid && storeForm.address.$pristine && storeSubmit)}">
+                <input type="text" name="address" class="form-control input-lg" placeholder="Dirección" ng-model="store.address" required>
             </div>
-            <div class="form-group">
-                <input type="text" class="form-control input-lg" placeholder="Teléfono del local" ng-model="store.phone">
+            <div class="form-group" ng-class="{ 'has-error' : (storeForm.phone.$invalid && !storeForm.phone.$pristine) ||
+                                                                      (storeForm.phone.$invalid && storeForm.phone.$pristine && storeSubmit)}">
+                <input type="text" name="phone" class="form-control input-lg" placeholder="Teléfono del local" ng-model="store.phone" required>
             </div>
             <div class="form-group">
                 <textarea ng-model="store.features" class="form-control input-lg" placeholder="Características especiales. Ej: wifi, terraza, deck, refill, etc."></textarea>
@@ -66,8 +68,12 @@
             </div>
             <div class="row map-container">
                 <div class="col-md-12 text-left">
-                    <h2><small>Hac&eacute; click en el mapa para ubicar tu local. Esto es importante para que los clientes
-                    de la zona encuentren f&aacute;cilmente su comida :)</small></h2>
+                    <h2>
+                        <small>
+                            Hac&eacute; click en el mapa para ubicar tu local. Esto es importante para que los clientes
+                            de la zona encuentren f&aacute;cilmente su comida :)
+                        </small>
+                    </h2>
                 </div>
                 <div class="col-md-12">
                     <ui-gmap-google-map center='map.center' zoom='map.zoom' events="map.events">
@@ -75,34 +81,30 @@
                     </ui-gmap-google-map>
                 </div>
             </div>
+            <div ng-repeat="store in stores" class="row" ng-hide="showForm">
+                <div class="col-lg-2"></div>
+                <div class="col-lg-8 col-md-12 well add-store-container" ng-click="showStore(store)">
+                    <label>{{companyName}} - {{store.identifier}}</label>
+                </div>
+                <div class="col-lg-2"></div>
+            </div>
+
+            <div class="row" ng-hide="showForm">
+                <div class="col-lg-2"></div>
+                <div class="col-lg-8 col-md-12 well add-store-container" ng-click="addStore()">
+                    <i class="fa fa-plus"></i> <label>AGREGAR UN LOCAL</label>
+                </div>
+                <div class="col-lg-2"></div>
+            </div>
+            <div class="row button-container">
+                <div class="col-md-6 col-lg-6">
+                    <button ng-click="save(storeForm.$valid)" type="submit" class="btn btn-primary btn-lg pull-left" ladda="loadingSave" data-style="expand-right">Guardar</button>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                    <button ng-click="nextStep(storeForm.$valid)" type="submit" class="btn btn-primary btn-lg pull-right next-step" ladda="loadingNextStep" data-style="expand-right">Mi men&uacute; <i class="fa fa-angle-right"></i></button>
+                </div>
+            </div>
         </form>
-    </div>
-    <div class="col-lg-2"></div>
-</div>
-
-<div ng-repeat="store in stores" class="row" ng-hide="showForm">
-    <div class="col-lg-2"></div>
-    <div class="col-lg-8 col-md-12 well add-store-container" ng-click="showStore(store)">
-        <label>{{companyName}} - {{store.identifier}}</label>
-    </div>
-    <div class="col-lg-2"></div>
-</div>
-
-<div class="row" ng-hide="showForm">
-<div class="col-lg-2"></div>
-<div class="col-lg-8 col-md-12 well add-store-container" ng-click="addStore()">
-    <i class="fa fa-plus"></i> <label>AGREGAR UN LOCAL</label>
-</div>
-<div class="col-lg-2"></div>
-</div>
-<div class="row button-container">
-    <div class="col-lg-2"></div>
-    <div class="col-md-6 col-lg-4">
-        <button ng-click="save()" type="submit" class="btn btn-primary btn-lg pull-left" ladda="loadingSave" data-style="expand-right">Guardar</button>
-    </div>
-    <div class="col-md-6 col-lg-4">
-        <button ng-if="showNextStep" ng-click="nextStep()" type="submit" class="btn btn-primary btn-lg pull-right next-step" ladda="loadingNextStep" data-style="expand-right">Mi men&uacute; <i class="fa fa-angle-right"></i></button>
-        <button ng-if="!showNextStep" class="btn btn-primary btn-lg pull-right next-step" disabled="disabled">Mi men&uacute; <i class="fa fa-angle-right"></i></button>
     </div>
     <div class="col-lg-2"></div>
 </div>
