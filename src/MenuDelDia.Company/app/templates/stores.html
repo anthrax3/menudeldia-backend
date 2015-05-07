@@ -49,16 +49,10 @@
                         <h2><small>{{day.name}}</small></h2>
                     </div>
                     <div class="col-md-2">
-                        <select class="form-control" ng-model="day.from">
-                            <option>09:00</option>
-                            <option>10:00</option>
-                        </select>
+                        <select class="form-control" ng-model="day.from" ng-options="hour for hour in hours track by hour"></select>
                     </div>
                     <div class="col-md-2">
-                        <select class="form-control " ng-model="day.to">
-                            <option>09:00</option>
-                            <option>10:00</option>
-                        </select>
+                        <select class="form-control " ng-model="day.to" ng-options="hour for hour in hours track by hour"></select>
                     </div>
                     <div class="col-md-1">
                         <button ng-click="toggleOpenDay(day)" ng-show="day.open" class="btn btn-default">abierto <i class="fa fa-check text-success"></i></button>
