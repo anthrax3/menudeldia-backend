@@ -26,6 +26,9 @@ namespace MenuDelDia.API.API.Site
             if (restaurant == null)
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
 
+            var oldImagePath = restaurant.LogoPath;
+            var oldImageName = restaurant.LogoName;
+
             var path = request.MapPath("~/RestaurantImages");
             var file = request.Files[0];
             var extension = file.FileName.Substring(file.FileName.LastIndexOf('.'));
@@ -40,9 +43,9 @@ namespace MenuDelDia.API.API.Site
 
             CurrentAppContext.SaveChanges();
 
-            if (string.IsNullOrEmpty(restaurant.LogoPath) == false)
+            if (string.IsNullOrEmpty(oldImagePath) == false)
             {
-                var oldImage = new FileInfo(Path.Combine(path, restaurant.LogoName));
+                var oldImage = new FileInfo(Path.Combine(path, oldImageName));
                 if (oldImage.Exists)
                     oldImage.Delete();
             }
