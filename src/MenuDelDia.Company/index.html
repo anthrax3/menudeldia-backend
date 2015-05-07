@@ -7,8 +7,10 @@
     <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
     <link rel="stylesheet" type="text/css" href="assets/font-awesome-4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="bower_components/ladda/dist/ladda-themeless.min.css">
+    <link rel="stylesheet" type="text/css" href="bower_components/angularjs-toaster/toaster.min.css">
 </head>
 <body ng-app="menudeldia">
+    <toaster-container></toaster-container>
     <div class="container">
         <div class="starter-template">
             <!--main content-->
@@ -60,6 +62,7 @@
     </div><!-- /.container -->
 
     <script type="application/javascript" src="bower_components/angular/angular.min.js"></script>
+    <script type="application/javascript" src="bower_components/angular-animate/angular-animate.min.js"></script>
     <script type="application/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script src="bower_components/ladda/js/spin.js"></script>
     <script src="bower_components/ladda/js/ladda.js"></script>
@@ -68,6 +71,7 @@
     <script src="bower_components/angular-google-maps/dist/angular-google-maps.min.js"></script>
     <script src="bower_components/angular-file-upload/angular-file-upload.min.js"></script>
     <script src="bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
+    <script src="assets/js/toasterEdit.js"></script>
 
     <!-- Production: update & run gulp-->
     <!--<script type="application/javascript" src="assets/js/bundle-ug.js"></script>-->
@@ -89,6 +93,7 @@
     <script type="application/javascript" src="app/services/storesService.js"></script>
     <script type="application/javascript" src="app/services/menuService.js"></script>
     <script type="application/javascript" src="app/services/authInterceptorService.js"></script>
+    <script type="application/javascript" src="app/services/helpersService.js"></script>
 
 </body>
 </html>

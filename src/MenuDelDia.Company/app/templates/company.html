@@ -7,16 +7,17 @@
         <div ng-if="uploader.queue.length == 0" class="well my-drop-zone" over-class="another-file-over-class" nv-file-drop="" nv-file-over="" uploader="uploader">
             Arrastr&aacute; aqu&iacute; el logo de tu empresa
         </div>
-        <input ng-if="uploader.queue.length == 0" type="file" nv-file-select uploader="uploader" />
-
-        <div>
-            <a ng-if="company.hasImage" href="{{company.logoPath}}" target="_blank"><i class="fa fa-trash"></i> Descargar imagen</a>
+        <input ng-if="uploader.queue.length == 0" type="file" nv-file-select uploader="uploader"/>
+        
+        <div ng-if="uploader.queue.length > 0">
+            <a href="{{company.logoPath}}" target="_blank"><i class="fa fa-trash"></i> Descargar imagen</a>
         </div>
     </div>
     <div class="col-md-9">
-        <form>
-            <div class="form-group">
-                <input type="text" class="form-control input-lg" placeholder="Nombre de la empresa" ng-model="company.name">
+        <form name="companyForm" novalidate>
+            <div class="form-group" ng-class="{ 'has-error' : (companyForm.name.$invalid && !companyForm.name.$pristine) ||
+                                                                      (companyForm.name.$invalid && companyForm.name.$pristine && companySubmit)}">
+                <input type="text" name="name" class="form-control input-lg" placeholder="Nombre de la empresa" ng-model="company.name" required>
             </div>
             <div class="form-group">
                 <textarea class="form-control input-lg" placeholder="Descripcion" ng-model="company.description"></textarea>
@@ -27,8 +28,9 @@
                     <input type="text" class="form-control input-lg" placeholder="Sitio web" ng-model="company.url">
                 </div>
             </div>
-            <div class="form-group">
-                <input type="email" class="form-control input-lg" placeholder="Email" ng-model="company.email" />
+            <div class="form-group" ng-class="{ 'has-error' : (companyForm.email.$invalid && !companyForm.email.$pristine) ||
+                                                                      (companyForm.email.$invalid && companyForm.email.$pristine && companySubmit)}">
+                <input type="email" name="email" class="form-control input-lg" placeholder="Email" ng-model="company.email" required />
             </div>
             <div class="row text-left">
                 <div class="col-md-12">
@@ -39,7 +41,7 @@
                 <div class="col-md-2" ng-repeat="tag in tags">
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" value="{{tag.id}}" ng-model="tag.selected"> {{tag.name}}
+                            <input type="checkbox" value="{{tag.id}}" ng-model="tag.selected" ng-disabled="!tag.selected && tagsDisabled"> {{tag.name}}
                         </label>
                     </div>
                 </div>
@@ -47,10 +49,10 @@
             <hr>
             <div class="row button-container">
                 <div class="col-md-6">
-                    <button ng-click="saveCompany()" type="submit" class="btn btn-primary btn-lg pull-left" ladda="loadingSave" data-style="expand-right">Guardar</button>
+                    <button ng-click="saveCompany(companyForm.$valid)" class="btn btn-primary btn-lg pull-left" ladda="loadingSave" data-style="expand-right">Guardar</button>
                 </div>
                 <div class="col-md-6">
-                    <button ng-click="nextStep()" type="submit" class="btn btn-primary btn-lg pull-right next-step" ladda="loadingNextStep" data-style="expand-right">Mis locales <i class="fa fa-angle-right"></i></button>
+                    <button ng-click="nextStep(companyForm.$valid)" class="btn btn-primary btn-lg pull-right next-step" ladda="loadingNextStep" data-style="expand-right">Mis locales <i class="fa fa-angle-right"></i></button>
                 </div>
             </div>
         </form>

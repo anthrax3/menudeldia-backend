@@ -7,4 +7,5 @@ angular.module('menudeldia', [
 'uiGmapgoogle-maps',
 'angularFileUpload',
 'LocalStorageModule',
+'toaster'
 ]);

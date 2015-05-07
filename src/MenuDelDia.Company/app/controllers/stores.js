@@ -5,9 +5,9 @@
         .module('menudeldia')
         .controller('storesCtrl', storesCtrl);
 
-    storesCtrl.$inject = ['$scope', '$rootScope', '$state', '$stateParams', 'companyService', '$timeout', '$log', 'companyInfo', 'storesService', 'stores'];
+    storesCtrl.$inject = ['$scope', '$rootScope', '$state', '$stateParams', 'companyService', '$timeout', '$log', 'companyInfo', 'storesService', 'stores', 'helperService'];
 
-    function storesCtrl($scope, $rootScope, $state, $stateParams, companyService, $timeout, $log, companyInfo, storesService, stores) {
+    function storesCtrl($scope, $rootScope, $state, $stateParams, companyService, $timeout, $log, companyInfo, storesService, stores, helperService) {
 
         $scope.showStore = showStore;
         $scope.addStore = addStore;
@@ -71,7 +71,6 @@
             $scope.loadingSave = true;
             $scope.store.location.latitude = $scope.marker.coords.latitude;
             $scope.store.location.longitude = $scope.marker.coords.longitude;
-            debugger;
 
             if($scope.store.id == null){
                 storesService.addStore($scope.store)
@@ -178,39 +177,39 @@
             };
         }
 
-        $scope.$watch('stores', function() {
-                $scope.showNextStep =
-                    ($scope.showForm &&
-                        (
-                            $scope.store != null &&
-                            $scope.store.zone != '' &&
-                            $scope.store.address != '' &&
-                            $scope.store.phone != '' &&
-                            ($scope.store.location != null &&
-                                $scope.store.location.latitude != null &&
-                                $scope.store.location.longitude != null)
-                            )
-                        ) ||
-                    (!$scope.showForm && ($scope.stores != null && $scope.stores.length > 0));
-        },
-        true);
+        //$scope.$watch('stores', function() {
+        //        $scope.showNextStep =
+        //            ($scope.showForm &&
+        //                (
+        //                    $scope.store != null &&
+        //                    $scope.store.zone != '' &&
+        //                    $scope.store.address != '' &&
+        //                    $scope.store.phone != '' &&
+        //                    ($scope.store.location != null &&
+        //                        $scope.store.location.latitude != null &&
+        //                        $scope.store.location.longitude != null)
+        //                    )
+        //                ) ||
+        //            (!$scope.showForm && ($scope.stores != null && $scope.stores.length > 0));
+        //},
+        //true);
 
-        $scope.$watch('store', function() {
-                $scope.showNextStep =
-                    ($scope.showForm &&
-                    (
-                        $scope.store != null &&
-                        $scope.store.zone != '' &&
-                        $scope.store.address != '' &&
-                        $scope.store.phone != '' &&
-                        ($scope.store.location != null &&
-                            $scope.store.location.latitude != null &&
-                            $scope.store.location.longitude != null)
-                        )
-                     ) ||
-                    (!$scope.showForm && ($scope.stores != null && $scope.stores.length > 0));
-            },
-            true);
+        //$scope.$watch('store', function() {
+        //        $scope.showNextStep =
+        //            ($scope.showForm &&
+        //            (
+        //                $scope.store != null &&
+        //                $scope.store.zone != '' &&
+        //                $scope.store.address != '' &&
+        //                $scope.store.phone != '' &&
+        //                ($scope.store.location != null &&
+        //                    $scope.store.location.latitude != null &&
+        //                    $scope.store.location.longitude != null)
+        //                )
+        //             ) ||
+        //            (!$scope.showForm && ($scope.stores != null && $scope.stores.length > 0));
+        //    },
+        //    true);
     }
 })();
 
