@@ -5,9 +5,9 @@
         .module('menudeldia')
         .controller('companyCtrl', company);
 
-    company.$inject = ['$scope', '$rootScope', '$state', '$stateParams', '$timeout', 'FileUploader', 'companyService', 'configService', 'authService', 'companyInfo', 'tags', 'localStorageService', 'toaster', 'helperService'];
+    company.$inject = ['$scope', '$rootScope', '$state', '$stateParams', '$timeout', 'FileUploader', 'companyService', 'configService', 'authService', 'companyInfo', 'tags', 'localStorageService', 'toaster', 'helperService', '$log'];
 
-    function company($scope, $rootScope, $state, $stateParams, $timeout, FileUploader, companyService, configService, authService, companyInfo, tags, localStorageService, toaster, helperService) {
+    function company($scope, $rootScope, $state, $stateParams, $timeout, FileUploader, companyService, configService, authService, companyInfo, tags, localStorageService, toaster, helperService, $log) {
 
         //function definition
         $scope.nextStep = nextStep;
@@ -38,6 +38,7 @@
             });
 
             if (authService.authentication.isAuth == false) { $state.go('account'); }
+
 
             $rootScope.enabledStores = true;
             $rootScope.enabledMenu = true;
@@ -84,7 +85,7 @@
                 .then(
                     function (result) {
                         if ($scope.uploader.queue.length != 0) {
-                            uploadImage();
+                            //uploadImage();
                         } else {
                             $scope.loadingSave = false;
                         }
@@ -96,18 +97,18 @@
 
         function nextStep(isValid) {
 
+            $scope.company.tags = _.pluck(_.filter($scope.tags, function (i) { return i.selected }), 'id');
+
             if (!isCompanyValid(isValid))
                 return;
 
             $scope.loadingNextStep = true;
-            //set new tags
-            $scope.company.tags = _.pluck(_.filter($scope.tags, function (i) { return i.selected }), 'id');
-
+            
             companyService.save($scope.company)
                 .then(
                     function (result) {
                         if ($scope.uploader.queue.length != 0) {
-                            uploadImage();
+                            //uploadImage();
                             $state.go('stores');
                             $scope.loadingNextStep = false;
                         } else {
