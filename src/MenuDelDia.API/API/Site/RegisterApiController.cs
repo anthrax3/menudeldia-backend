@@ -109,6 +109,7 @@ namespace MenuDelDia.API.API.Site
         }
 
         [HttpGet]
+        [Authorize]
         [Route("api/site/companyInfo")]
         public Task<HttpResponseMessage> CompanyInfo()
         {
@@ -152,6 +153,7 @@ namespace MenuDelDia.API.API.Site
         }
 
         [HttpPost]
+        [Authorize]
         [Route("api/site/company/save")]
         public HttpResponseMessage CompanySave([FromBody] RegisterApiModel model)
         {
@@ -225,6 +227,7 @@ namespace MenuDelDia.API.API.Site
 
 
         [HttpGet]
+        [Authorize]
         [Route("api/site/stores")]
         public Task<HttpResponseMessage> Stores()
         {
@@ -340,6 +343,7 @@ namespace MenuDelDia.API.API.Site
         }
 
         [HttpPost]
+        [Authorize]
         [Route("api/site/store")]
         public Task<HttpResponseMessage> Store([FromBody] LocationApiModel model)
         {
@@ -403,6 +407,7 @@ namespace MenuDelDia.API.API.Site
 
 
         [HttpPost]
+        [Authorize]
         [Route("api/site/updatestore")]
         public Task<HttpResponseMessage> UpdateStore([FromBody] LocationApiModel model)
         {
@@ -493,6 +498,7 @@ namespace MenuDelDia.API.API.Site
         };
 
         [HttpGet]
+        [Authorize]
         [Route("api/site/menus/")]
         public Task<HttpResponseMessage> Menus()
         {
@@ -552,6 +558,7 @@ namespace MenuDelDia.API.API.Site
         }
 
         [HttpPost]
+        [Authorize]
         [Route("api/site/menu")]
         public Task<HttpResponseMessage> Menu([FromBody] RestaurantMenuApiModel model)
         {
@@ -620,6 +627,7 @@ namespace MenuDelDia.API.API.Site
 
 
         [HttpPost]
+        [Authorize]
         [Route("api/site/updatemenu")]
         public Task<HttpResponseMessage> UpdateMenu([FromBody] RestaurantMenuApiModel model)
         {

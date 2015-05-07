@@ -13,6 +13,7 @@ namespace MenuDelDia.API.API.Site
     public class FileApiController : ApiBaseController
     {
         [HttpPost]
+        [Authorize]
         [Route("api/site/file/upload")]
         public HttpResponseMessage Upload()
         {
