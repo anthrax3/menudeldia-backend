@@ -74,4 +74,6 @@ angular
             if (toState.name != 'account' && authService.isLoggedIn() == false)
                 $state.go("account");
         });
-    });
+    })
+    .constant('appSettings', { url: 'http://localhost:45291/' });
+//    .constant('appSettings', { url: 'http://mddservice.azurewebsites.net/' });

@@ -5,9 +5,9 @@
         .module('menudeldia')
         .factory('configService', configService);
 
-    configService.$inject = ['$q', '$http'];
+    configService.$inject = ['$q', '$http', 'appSettings'];
 
-    function configService($q, $http) {
+    function configService($q, $http, appSettings) {
         var service = {
             getTags: getTags
         };
@@ -18,7 +18,7 @@
             var deferred = $q.defer();
 
             //call webapi service
-            $http.get('http://localhost:45291/api/site/tags')
+            $http.get(appSettings.url + 'api/site/tags')
                 .error(function(data, status, headers, config) { deferred.reject({ data: data, status: status }); })
                 .success(function(data, status, headers, config) { deferred.resolve(data); });
 
@@ -26,32 +26,3 @@
         }
     }
 })();
-
-//(function () {
-//    'use strict';
-
-//    angular
-//        .module('menudeldia')
-//        .factory('configService', configService);
-
-//    configService.$inject = ['$q', '$http'];
-
-//    function configService($q, $http) {
-//        var service = {
-//            getTags: getTags
-//        };
-
-//        return service;
-
-//        function getTags() {
-//            var deferred = $q.defer();
-
-//            //call webapi service
-//            $http.get('http://mddservice.azurewebsites.net/api/site/tags')
-//                .error(function (data, status, headers, config) { deferred.reject({ data: data, status: status }); })
-//                .success(function (data, status, headers, config) { deferred.resolve(data); });
-
-//            return deferred.promise;
-//        }
-//    }
-//})();
