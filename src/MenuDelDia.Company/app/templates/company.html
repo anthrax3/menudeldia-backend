@@ -9,7 +9,7 @@
         </div>
         <input ng-if="uploader.queue.length == 0" type="file" nv-file-select uploader="uploader"/>
         
-        <div ng-if="uploader.queue.length > 0">
+        <div ng-if="company.hasImage">
             <a href="{{company.logoPath}}" target="_blank"><i class="fa fa-trash"></i> Descargar imagen</a>
         </div>
     </div>

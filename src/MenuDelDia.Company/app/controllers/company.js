@@ -85,7 +85,7 @@
                 .then(
                     function (result) {
                         if ($scope.uploader.queue.length != 0) {
-                            //uploadImage();
+                            uploadImage();
                         } else {
                             $scope.loadingSave = false;
                         }

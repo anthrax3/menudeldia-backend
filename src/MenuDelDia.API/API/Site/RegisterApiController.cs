@@ -139,7 +139,7 @@ namespace MenuDelDia.API.API.Site
                         Cards = restaurant.Cards.Select(c => c.Id).ToList(),
                         Tags = restaurant.Tags.Select(t => t.Id).ToList(),
                         LogoPath = !string.IsNullOrEmpty(restaurant.LogoPath) ? string.Format("{0}{1}", baseUrl, restaurant.LogoPath.Substring(0, restaurant.LogoPath.LastIndexOf('.'))) : "",
-                        HasImage = (string.IsNullOrEmpty(restaurant.LogoPath))
+                        HasImage = (string.IsNullOrEmpty(restaurant.LogoPath) == false)
                     };
                     return Request.CreateResponse(HttpStatusCode.OK, registerApiModel);
                 }
@@ -237,7 +237,7 @@ namespace MenuDelDia.API.API.Site
                 {
 
                     var restaurant = CurrentAppContext.Restaurants
-                                                      .Include(r => r.Locations)
+                                                      .Include(r => r.Locations.Select(o => o.OpenDays))
                                                       .AsNoTracking()
                                                       .FirstOrDefault(r => r.Id == CurrentRestaurantId);
 
@@ -268,63 +268,70 @@ namespace MenuDelDia.API.API.Site
                         var odMonday = l.OpenDays.FirstOrDefault(od => od.DayOfWeek == monday.DayOfWeek);
                         if (odMonday != null)
                         {
-                            monday.From = string.Format("{0}:{1}", odMonday.OpenHour, odMonday.OpenMinutes);
-                            monday.To = string.Format("{0}:{1}", odMonday.CloseHour, odMonday.CloseMinutes);
+                            monday.From = string.Format("{0}:{1}", odMonday.OpenHour.ToString("00"), odMonday.OpenMinutes.ToString("00"));
+                            monday.To = string.Format("{0}:{1}", odMonday.CloseHour.ToString("00"), odMonday.CloseMinutes.ToString("00"));
                             monday.Open = true;
+                            model.Days.Add(monday);
                         }
 
                         var tuesday = new DaysApiModel { DayOfWeek = DayOfWeek.Tuesday };
                         var odTuesday = l.OpenDays.FirstOrDefault(od => od.DayOfWeek == tuesday.DayOfWeek);
                         if (odTuesday != null)
                         {
-                            tuesday.From = string.Format("{0}:{1}", odTuesday.OpenHour, odTuesday.OpenMinutes);
-                            tuesday.To = string.Format("{0}:{1}", odTuesday.CloseHour, odTuesday.CloseMinutes);
+                            tuesday.From = string.Format("{0}:{1}", odTuesday.OpenHour.ToString("00"), odTuesday.OpenMinutes.ToString("00"));
+                            tuesday.To = string.Format("{0}:{1}", odTuesday.CloseHour.ToString("00"), odTuesday.CloseMinutes.ToString("00"));
                             tuesday.Open = true;
+                            model.Days.Add(tuesday);
                         }
 
                         var wednesday = new DaysApiModel { DayOfWeek = DayOfWeek.Wednesday };
                         var odWednesday = l.OpenDays.FirstOrDefault(od => od.DayOfWeek == wednesday.DayOfWeek);
                         if (odWednesday != null)
                         {
-                            wednesday.From = string.Format("{0}:{1}", odWednesday.OpenHour, odWednesday.OpenMinutes);
-                            wednesday.To = string.Format("{0}:{1}", odWednesday.CloseHour, odWednesday.CloseMinutes);
+                            wednesday.From = string.Format("{0}:{1}", odWednesday.OpenHour.ToString("00"), odWednesday.OpenMinutes.ToString("00"));
+                            wednesday.To = string.Format("{0}:{1}", odWednesday.CloseHour.ToString("00"), odWednesday.CloseMinutes.ToString("00"));
                             wednesday.Open = true;
+                            model.Days.Add(wednesday);
                         }
 
                         var thursday = new DaysApiModel { DayOfWeek = DayOfWeek.Thursday };
                         var odThursday = l.OpenDays.FirstOrDefault(od => od.DayOfWeek == thursday.DayOfWeek);
                         if (odThursday != null)
                         {
-                            thursday.From = string.Format("{0}:{1}", odThursday.OpenHour, odThursday.OpenMinutes);
-                            thursday.To = string.Format("{0}:{1}", odThursday.CloseHour, odThursday.CloseMinutes);
+                            thursday.From = string.Format("{0}:{1}", odThursday.OpenHour.ToString("00"), odThursday.OpenMinutes.ToString("00"));
+                            thursday.To = string.Format("{0}:{1}", odThursday.CloseHour.ToString("00"), odThursday.CloseMinutes.ToString("00"));
                             thursday.Open = true;
+                            model.Days.Add(thursday);
                         }
 
                         var friday = new DaysApiModel { DayOfWeek = DayOfWeek.Friday };
                         var odFriday = l.OpenDays.FirstOrDefault(od => od.DayOfWeek == friday.DayOfWeek);
                         if (odFriday != null)
                         {
-                            friday.From = string.Format("{0}:{1}", odFriday.OpenHour, odFriday.OpenMinutes);
-                            friday.To = string.Format("{0}:{1}", odFriday.CloseHour, odFriday.CloseMinutes);
+                            friday.From = string.Format("{0}:{1}", odFriday.OpenHour.ToString("00"), odFriday.OpenMinutes.ToString("00"));
+                            friday.To = string.Format("{0}:{1}", odFriday.CloseHour.ToString("00"), odFriday.CloseMinutes.ToString("00"));
                             friday.Open = true;
+                            model.Days.Add(friday);
                         }
 
                         var sunday = new DaysApiModel { DayOfWeek = DayOfWeek.Sunday };
                         var odSunday = l.OpenDays.FirstOrDefault(od => od.DayOfWeek == sunday.DayOfWeek);
                         if (odSunday != null)
                         {
-                            sunday.From = string.Format("{0}:{1}", odSunday.OpenHour, odSunday.OpenMinutes);
-                            sunday.To = string.Format("{0}:{1}", odSunday.CloseHour, odSunday.CloseMinutes);
+                            sunday.From = string.Format("{0}:{1}", odSunday.OpenHour.ToString("00"), odSunday.OpenMinutes.ToString("00"));
+                            sunday.To = string.Format("{0}:{1}", odSunday.CloseHour.ToString("00"), odSunday.CloseMinutes.ToString("00"));
                             sunday.Open = true;
+                            model.Days.Add(sunday);
                         }
 
                         var saturday = new DaysApiModel { DayOfWeek = DayOfWeek.Saturday };
                         var odSaturday = l.OpenDays.FirstOrDefault(od => od.DayOfWeek == saturday.DayOfWeek);
                         if (odSaturday != null)
                         {
-                            saturday.From = string.Format("{0}:{1}", odSaturday.OpenHour, odSaturday.OpenMinutes);
-                            saturday.To = string.Format("{0}:{1}", odSaturday.CloseHour, odSaturday.CloseMinutes);
+                            saturday.From = string.Format("{0}:{1}", odSaturday.OpenHour.ToString("00"), odSaturday.OpenMinutes.ToString("00"));
+                            saturday.To = string.Format("{0}:{1}", odSaturday.CloseHour.ToString("00"), odSaturday.CloseMinutes.ToString("00"));
                             saturday.Open = true;
+                            model.Days.Add(saturday);
                         }
 
                         #endregion

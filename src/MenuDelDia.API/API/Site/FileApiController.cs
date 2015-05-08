@@ -31,6 +31,11 @@ namespace MenuDelDia.API.API.Site
             var oldImageName = restaurant.LogoName;
 
             var path = request.MapPath("~/RestaurantImages");
+
+            var directory = new DirectoryInfo(path);
+            if (directory.Exists == false)
+                directory.Create();
+
             var file = request.Files[0];
             var extension = file.FileName.Substring(file.FileName.LastIndexOf('.'));
             var name = string.Format("{0}{1}", Guid.NewGuid(), extension);

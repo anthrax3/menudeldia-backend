@@ -158,6 +158,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\Elmah.Errors\" />
     <Folder Include="RestaurantImages\" />
   </ItemGroup>
   <ItemGroup>
@@ -240,7 +241,6 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Elmah.Errors\ElmahErrors.txt" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
@@ -264,6 +264,8 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+    <None Include="Properties\PublishProfiles\mddservice - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\mddservice - Web Deploy.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\MessagesResources.resx">
