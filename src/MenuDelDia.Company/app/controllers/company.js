@@ -12,10 +12,10 @@
         //function definition
         $scope.nextStep = nextStep;
         $scope.saveCompany = saveCompany;
+        $rootScope.isAuth = isAuth;
         $scope.companySubmit = false;
         //initialize controller
         activate();
-
 
         //functions
 
@@ -73,7 +73,6 @@
         }
 
         function saveCompany(isValid) {
-            
             $scope.company.tags = _.pluck(_.filter($scope.tags, function (i) { return i.selected }), 'id');
 
             if (!isCompanyValid(isValid))
@@ -149,6 +148,10 @@
                     return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
                 }
             });
+        }
+
+        function isAuth() {
+            return authService.authentication.isAuth;
         }
 
         $scope.$watch('tags', function() {

@@ -5,9 +5,9 @@
         .module('menudeldia')
         .factory('companyService', companyService);
 
-    companyService.$inject = ['$q', '$http'];
+    companyService.$inject = ['$q', '$http', 'appSettings'];
 
-    function companyService($q, $http) {
+    function companyService($q, $http, appSettings) {
         var service = {
             getCompany: getCompany,
             getCompanyName: getCompanyName,
@@ -22,7 +22,7 @@
             var deferred = $q.defer();
 
             //call webapi service
-            $http.get('http://mddservice.azurewebsites.net/api/site/companyInfo/')
+            $http.get(appSettings.url + 'api/site/companyInfo/')
                 .success(function (data, status, headers, config) { deferred.resolve(data); })
                 .error(function (data, status, headers, config) { deferred.reject({ data: data, status: status }); });
 
@@ -33,7 +33,7 @@
             var deferred = $q.defer();
 
             //call webapi service
-            $http.post('http://mddservice.azurewebsites.net/api/site/company/save', company)
+            $http.post(appSettings.url + 'api/site/company/save', company)
                 .success(function (data, status, headers, config) { deferred.resolve(data); })
                 .error(function (data, status, headers, config) { deferred.reject({ data: data, status: status }); });
 
@@ -44,7 +44,7 @@
             var deferred = $q.defer();
 
             //call webapi service
-            $http.get('http://mddservice.azurewebsites.net/api/site/companyInfo')
+            $http.get(appSettings.url + 'api/site/companyInfo')
                 .success(function (data, status, headers, config) { deferred.resolve(data); })
                 .error(function (data, status, headers, config) { deferred.reject({ data: data, status: status }); });
 

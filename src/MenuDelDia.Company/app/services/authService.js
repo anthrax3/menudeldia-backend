@@ -5,9 +5,9 @@
         .module('menudeldia')
         .factory('authService', authService);
 
-    authService.$inject = ['$q', '$http', 'localStorageService', 'companyService'];
+    authService.$inject = ['$q', '$http', 'localStorageService', 'appSettings'];
 
-    function authService($q, $http, localStorageService) {
+    function authService($q, $http, localStorageService, appSettings) {
         var constAuthorizationData = 'authorizationData';
 
         var authentication = {
@@ -32,7 +32,8 @@
 
         function saveRegistration(registration) {
             logOut();
-            return $http.post('http://mddservice.azurewebsites.net/token', registration).then(function (response) {
+
+            return $http.post(appSettings.url + 'token', registration).then(function (response) {
                 return response;
             });
         };
@@ -40,8 +41,7 @@
         function login(loginData) {
             var data = "grant_type=password&username=" + loginData.userName + "&password=" + loginData.password;
             var deferred = $q.defer();
-            $http.post('http://mddservice.azurewebsites.net/token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
-
+            $http.post(appSettings.url + 'token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
                 .success(function (responseToken) {
                     if (localStorageService.isSupported) {
                         localStorageService.set(constAuthorizationData, {
@@ -68,8 +68,7 @@
 
         function signIn(signInData) {
             var deferred = $q.defer();
-
-            $http.post('http://mddservice.azurewebsites.net/api/site/user/register', signInData)
+            $http.post(appSettings.url + 'api/site/user/register', signInData)
                 .success(function(response) { deferred.resolve(response); })
                 .error(function(data, status, headers, config) {
                     deferred.reject({

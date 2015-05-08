@@ -5,11 +5,12 @@
         .module('menudeldia')
         .controller('menuCtrl', menu);
 
-    menu.$inject = ['$scope', '$rootScope', '$stateParams', '$timeout', 'menuService', 'restaurantMenus'];
+    menu.$inject = ['$scope', '$rootScope', '$stateParams', '$timeout', 'menuService', 'restaurantMenus', 'authService'];
 
-    function menu($scope, $rootScope, $stateParams, $timeout, menuService, restaurantMenus) {
+    function menu($scope, $rootScope, $stateParams, $timeout, menuService, restaurantMenus, authService) {
 
         $scope.save = save;
+        $rootScope.isAuth = isAuth;
 
         activate();
 
@@ -109,6 +110,10 @@
             $timeout(function(){
                 $scope.loadingSave = false;
             }, 3000)
+        }
+
+        function isAuth() {
+            return authService.authentication.isAuth;
         }
 
     }

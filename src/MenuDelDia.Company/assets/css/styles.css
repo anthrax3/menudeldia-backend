@@ -2,8 +2,22 @@ body {
     padding-top: 0px;
 }
 
+.navbar {
+    background-color: #FFFFFF;
+}
+
+.session-info {
+    float: left;
+    margin-top: 25px;
+    color: #f44336;
+}
+
+.session-info:active, .session-info:hover  {
+    color: #e83528;
+}
+
 .starter-template {
-    padding: 40px 15px;
+    padding: 0px 15px;
     text-align: center;
 }
 
@@ -126,4 +140,9 @@ body {
 .menu-page h4 {
     padding-bottom: 5px;
     color: #5b5b5b;
+}
+
+.btn.btn-primary.btn-lg {
+    background-color: #f44336;
+    border-color: #f44336;
 }

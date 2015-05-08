@@ -94,6 +94,7 @@
     <Content Include="assets\font-awesome-4.3.0\scss\_rotated-flipped.scss" />
     <Content Include="assets\font-awesome-4.3.0\scss\_stacked.scss" />
     <Content Include="assets\font-awesome-4.3.0\scss\_variables.scss" />
+    <Content Include="assets\img\logoMenu.png" />
     <Content Include="assets\js\toasterEdit.js" />
     <Content Include="bower.json" />
     <Content Include="bower_components\angular-animate\angular-animate.js" />

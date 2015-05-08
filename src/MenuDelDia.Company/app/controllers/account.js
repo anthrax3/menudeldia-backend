@@ -12,6 +12,7 @@
         //function definition
         $scope.signIn = signIn;
         $scope.logIn = logIn;
+        $rootScope.isAuth = isAuth;
 
         $scope.signInSubmit = false;
         $scope.logInSubmit = false;
@@ -74,6 +75,7 @@
             $scope.loadingLogIn = true;
             authService.login({ userName: $scope.userLogIn.email, password: $scope.userLogIn.password })
                        .then(function (result) {
+                           debugger;
                            $state.go('company');
                            $scope.loadingLogIn = false;
                        },
@@ -85,6 +87,9 @@
                        });
         }
 
+        function isAuth() {
+            return authService.authentication.isAuth;
+        }
     }
 })();
 

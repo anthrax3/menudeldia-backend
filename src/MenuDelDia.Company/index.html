@@ -11,10 +11,20 @@
 </head>
 <body ng-app="menudeldia">
     <toaster-container></toaster-container>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="" href="#"><img src="assets/img/logoMenu.png"/></a>
+            </div>
+            <div class="navbar-header pull-right" ng-if="isAuth()">
+                <a class="session-info" ui-sref="account-logout">Cerrar sesi&oacute;n</a>
+            </div>
+        </div>
+    </nav>
     <div class="container">
         <div class="starter-template">
             <!--main content-->
-            <div class="row wizard-steps">
+            <div class="row wizard-steps" ng-if="isAuth()">
                 <div class="col-md-4 step" ui-sref="company" ui-sref-active="active">
                     <div class="col-md-1 separator">
                         <i class="fa fa-building"></i>
