@@ -125,7 +125,7 @@
             //Image upload
             var authData = localStorageService.get('authorizationData');
             $scope.uploader = new FileUploader({
-                url: "http://localhost:45291/api/site/file/upload",
+                url: "http://mddservice.azurewebsites.net/api/site/file/upload",
                 headers: { Authorization: 'Bearer ' + authData.token }
             });
 
