@@ -232,12 +232,16 @@
     <Compile Include="OAuthProvider\SimpleAuthorizationServerProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
+    <Compile Include="Resources\ViewResources.Designer.cs">
+      <DependentUpon>ViewResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Resources\MessagesResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MessagesResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\ViewResources.Designer.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -268,11 +272,14 @@
     <None Include="Properties\PublishProfiles\mddservice - Web Deploy.pubxml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\ViewResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ViewResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\MessagesResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>MessagesResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\ViewResources.resx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

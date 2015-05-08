@@ -12,8 +12,8 @@ using System.Web;
 using System.Web.Http;
 using MenuDelDia.API.Helpers;
 using MenuDelDia.API.Models.Mobile;
+using MenuDelDia.API.Resources;
 using MenuDelDia.Entities.Enums;
-using MenuDelDia.Presentacion.Resources;
 using MenuDelDia.Repository;
 
 namespace MenuDelDia.API.API.Mobile
