@@ -84,9 +84,8 @@
 
         function loadCompanyStores(){
             $scope.stores = stores;
-
             $scope.showForm = false;
-            if($scope.stores.length == 0) {
+            if(!$scope.stores.length) {
                 $scope.showForm = true;
                 $scope.store = newStore();
             }
@@ -124,8 +123,7 @@
 
         function save(isValid){
             $scope.loadingSave = true;
-            var s = $scope.store;
-            debugger;
+
             if (!isStoreValid(isValid)) {
                 $scope.loadingSave = false;
                 return;
@@ -181,10 +179,62 @@
             }
         }
 
-        function nextStep(isValid){
+        function nextStep(isValid) {
+
             $scope.loadingNextStep = true;
-            $state.go('menu');
-            $scope.loadingNextStep = false;
+
+            if (isValid == undefined) {
+                $state.go('menu');
+            } else {
+
+                if (!isStoreValid(isValid)) {
+                    $scope.loadingNextStep = false;
+                    return;
+                }
+
+                $scope.store.location.latitude = $scope.marker.coords.latitude;
+                $scope.store.location.longitude = $scope.marker.coords.longitude;
+
+                if ($scope.store.id == null) {
+                    storesService.addStore($scope.store)
+                        .then(
+                        function (result) {
+                            $state.go('menu');
+
+                            //clear marker
+                            $scope.marker = null;
+                            $scope.markerOn = false;
+                        },
+                        function (result) {
+                            $scope.loadingNextStep = false;
+                        });
+                }
+                else {
+                    storesService.updateStore($scope.store)
+                        .then(
+                        function (resultUpdate) {
+                            storesService.stores($stateParams.id).then(
+                                function (resultStores) {
+                                    $state.go('menu');
+
+                                    //clear marker
+                                    $scope.marker = null;
+                                    $scope.markerOn = false;
+                                },
+                                function () {
+                                    $scope.loadingNextStep = false;
+                                    $scope.showForm = false;
+
+                                    //clear marker
+                                    $scope.marker = null;
+                                    $scope.markerOn = false;
+                                });
+                        },
+                        function (result) {
+                            $scope.loadingNextStep = false;
+                        });
+                }
+            }
         }
 
         function toggleOpenDay(day){
