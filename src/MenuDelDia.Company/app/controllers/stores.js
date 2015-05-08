@@ -6,15 +6,16 @@
         .controller('storesCtrl', storesCtrl);
 
     storesCtrl.$inject = [
-        '$scope', '$rootScope', '$state', '$stateParams', 'companyService', '$timeout', '$log', 'companyInfo', 'storesService', 'stores', 'helperService', 'toaster'];
+        '$scope', '$rootScope', '$state', '$stateParams', 'companyService', '$timeout', '$log', 'companyInfo', 'storesService', 'stores', 'helperService', 'toaster', 'authService'];
 
-    function storesCtrl($scope, $rootScope, $state, $stateParams, companyService, $timeout, $log, companyInfo, storesService, stores, helperService, toaster) {
+    function storesCtrl($scope, $rootScope, $state, $stateParams, companyService, $timeout, $log, companyInfo, storesService, stores, helperService, toaster, authService) {
 
         $scope.showStore = showStore;
         $scope.addStore = addStore;
         $scope.save = save;
         $scope.nextStep = nextStep;
         $scope.toggleOpenDay = toggleOpenDay;
+        $rootScope.isAuth = isAuth;
         $scope.storeSubmit = false;
 
 
@@ -319,6 +320,10 @@
                 return false;
             }*/
             return true;
+        }
+
+        function isAuth() {
+            return authService.authentication.isAuth;
         }
 
         //$scope.$watch('stores', function() {

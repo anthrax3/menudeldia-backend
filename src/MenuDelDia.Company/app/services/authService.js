@@ -5,7 +5,7 @@
         .module('menudeldia')
         .factory('authService', authService);
 
-    authService.$inject = ['$q', '$http', 'localStorageService', 'companyService', 'appSettings'];
+    authService.$inject = ['$q', '$http', 'localStorageService', 'appSettings'];
 
     function authService($q, $http, localStorageService, appSettings) {
         var constAuthorizationData = 'authorizationData';
@@ -40,6 +40,7 @@
         function login(loginData) {
             var data = "grant_type=password&username=" + loginData.userName + "&password=" + loginData.password;
             var deferred = $q.defer();
+            debugger
             $http.post(appSettings.url + 'token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
 
                 .success(function (responseToken) {
