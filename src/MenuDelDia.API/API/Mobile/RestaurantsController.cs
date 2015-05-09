@@ -93,7 +93,7 @@ namespace MenuDelDia.API.API.Mobile
                 {
                     if (string.IsNullOrEmpty(r.LogoPath) == false)
                     {
-                        var path = Path.Combine(HttpContext.Current.Server.MapPath(ConfigurationManager.AppSettings["FolderLogos"]), string.Format("{0}{1}", r.LogoName, r.LogoExtension));
+                        var path = Path.Combine(HttpContext.Current.Server.MapPath(ConfigurationManager.AppSettings["FolderLogos"]), string.Format("{0}", r.LogoName));
                         var file = new FileInfo(path);
                         if (file.Exists)
                         {
@@ -186,7 +186,7 @@ namespace MenuDelDia.API.API.Mobile
                 {
                     if (string.IsNullOrEmpty(r.LogoPath) == false)
                     {
-                        var path = Path.Combine(HttpContext.Current.Server.MapPath(ConfigurationManager.AppSettings["FolderLogos"]), string.Format("{0}{1}", r.LogoName, r.LogoExtension));
+                        var path = Path.Combine(HttpContext.Current.Server.MapPath(ConfigurationManager.AppSettings["FolderLogos"]), string.Format("{0}", r.LogoName));
                         var file = new FileInfo(path);
                         if (file.Exists)
                         {

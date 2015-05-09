@@ -297,6 +297,7 @@
     <Content Include="Web.config" />
     <None Include="mddportal - FTP.pubxml" />
     <None Include="mddportal - Web Deploy.pubxml" />
+    <None Include="mddportal.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

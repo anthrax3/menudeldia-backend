@@ -36,7 +36,7 @@ namespace MenuDelDia.API.API.Mobile
 
                 if (logoApiModel != null && string.IsNullOrEmpty(logoApiModel.LogoPath) == false)
                 {
-                    var path = Path.Combine(HttpContext.Current.Server.MapPath(ConfigurationManager.AppSettings["FolderLogos"]), string.Format("{0}{1}", logoApiModel.LogoName, logoApiModel.LogoExtension));
+                    var path = Path.Combine(HttpContext.Current.Server.MapPath(ConfigurationManager.AppSettings["FolderLogos"]), string.Format("{0}", logoApiModel.LogoName));
                     var file = new FileInfo(path);
                     if (file.Exists)
                     {

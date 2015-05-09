@@ -5,9 +5,9 @@
         .module('menudeldia')
         .controller('companyCtrl', company);
 
-    company.$inject = ['$scope', '$rootScope', '$state', '$stateParams', '$timeout', 'FileUploader', 'companyService', 'configService', 'authService', 'companyInfo', 'tags', 'localStorageService', 'toaster', 'helperService', '$log'];
+    company.$inject = ['$scope', '$rootScope', '$state', '$stateParams', '$timeout', 'FileUploader', 'companyService', 'configService', 'authService', 'companyInfo', 'tags', 'localStorageService', 'toaster', 'helperService', 'appSettings'];
 
-    function company($scope, $rootScope, $state, $stateParams, $timeout, FileUploader, companyService, configService, authService, companyInfo, tags, localStorageService, toaster, helperService, $log) {
+    function company($scope, $rootScope, $state, $stateParams, $timeout, FileUploader, companyService, configService, authService, companyInfo, tags, localStorageService, toaster, helperService, appSettings) {
 
         //function definition
         $scope.nextStep = nextStep;
@@ -107,7 +107,7 @@
                 .then(
                     function (result) {
                         if ($scope.uploader.queue.length != 0) {
-                            //uploadImage();
+                            uploadImage();
                             $state.go('stores');
                             $scope.loadingNextStep = false;
                         } else {
@@ -124,7 +124,7 @@
             //Image upload
             var authData = localStorageService.get('authorizationData');
             $scope.uploader = new FileUploader({
-                url: "http://mddservice.azurewebsites.net/api/site/file/upload",
+                url: appSettings.url + "api/site/file/upload",
                 headers: { Authorization: 'Bearer ' + authData.token }
             });
 

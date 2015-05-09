@@ -154,7 +154,7 @@ namespace MenuDelDia.API.API.Mobile
                         var logoInfo = logos.FirstOrDefault(l => l.Id == location.RestaurantId);
                         if (logoInfo != null && string.IsNullOrEmpty(logoInfo.logo.LogoPath) == false)
                         {
-                            var path = Path.Combine(HttpContext.Current.Server.MapPath(ConfigurationManager.AppSettings["FolderLogos"]), string.Format("{0}{1}", logoInfo.logo.LogoName, logoInfo.logo.LogoExtension));
+                            var path = Path.Combine(HttpContext.Current.Server.MapPath(ConfigurationManager.AppSettings["FolderLogos"]), string.Format("{0}", logoInfo.logo.LogoName));
                             var file = new FileInfo(path);
                             if (file.Exists)
                             {

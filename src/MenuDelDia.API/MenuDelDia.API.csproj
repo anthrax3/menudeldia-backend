@@ -270,6 +270,7 @@
     <None Include="Project_Readme.html" />
     <None Include="Properties\PublishProfiles\mddservice - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\mddservice - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\mddservice.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\ViewResources.resx">

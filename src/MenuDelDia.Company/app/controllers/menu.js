@@ -19,7 +19,6 @@
             $rootScope.enabledMenu= true;
             $scope.loadingSave = false;
             loadMenu();
-            debugger;
         }
 
         function loadMenu(){
@@ -59,13 +58,13 @@
                     dayOfWeek: 6,
                     name: "Sábado",
                     menus: [],
-                    isDayOpen: false
+                    isDayOpen: true
                 },
                 {
                     dayOfWeek: 7,
                     name: "Domingo",
                     menus: [],
-                    isDayOpen: false
+                    isDayOpen: true
                 }
             ];
 
