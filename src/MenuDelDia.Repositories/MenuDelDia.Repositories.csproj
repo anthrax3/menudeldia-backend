@@ -79,6 +79,10 @@
     <Compile Include="Migrations\201505072154196_identifier_optional.Designer.cs">
       <DependentUpon>201505072154196_identifier_optional.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201505100601357_menu_description_not_required.cs" />
+    <Compile Include="Migrations\201505100601357_menu_description_not_required.Designer.cs">
+      <DependentUpon>201505100601357_menu_description_not_required.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -101,6 +105,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201505072154196_identifier_optional.resx">
       <DependentUpon>201505072154196_identifier_optional.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505100601357_menu_description_not_required.resx">
+      <DependentUpon>201505100601357_menu_description_not_required.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

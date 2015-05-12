@@ -5,9 +5,9 @@
         .module('menudeldia')
         .controller('menuCtrl', menu);
 
-    menu.$inject = ['$scope', '$rootScope', '$stateParams', '$timeout', 'menuService', 'restaurantMenus', 'authService'];
+    menu.$inject = ['$scope', '$rootScope', '$stateParams', '$timeout', 'menuService', 'restaurantMenus', 'authService', 'toaster'];
 
-    function menu($scope, $rootScope, $stateParams, $timeout, menuService, restaurantMenus, authService) {
+    function menu($scope, $rootScope, $stateParams, $timeout, menuService, restaurantMenus, authService, toaster) {
 
         $scope.save = save;
         $rootScope.isAuth = isAuth;
@@ -38,7 +38,7 @@
                 },
                 {
                     dayOfWeek: 3,
-                    name: "Miércoles",
+                    name: "Mi\u00e9rcoles",
                     menus: [],
                     isDayOpen: true
                 },
@@ -56,7 +56,7 @@
                 },
                 {
                     dayOfWeek: 6,
-                    name: "Sábado",
+                    name: "S\u00e1bado",
                     menus: [],
                     isDayOpen: true
                 },
@@ -103,6 +103,7 @@
                 }).then(
                 function(){
                     $scope.loadingSave = false;
+                    toaster.success("\u00c9xito", "El menu\u00fa se ha guardado correctamente.", 4000, 'trustedHtml');
             });
 
 

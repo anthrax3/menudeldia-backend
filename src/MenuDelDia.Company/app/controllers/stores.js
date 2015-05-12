@@ -146,6 +146,8 @@
                         //clear marker
                         $scope.marker = null;
                         $scope.markerOn = false;
+
+                        toaster.success("\u00c9xito", "El local se ha creado correctamente.", 4000, 'trustedHtml');
                     },
                     function(result){
                         $scope.loadingSave = false;
@@ -164,6 +166,8 @@
                                 //clear marker
                                 $scope.marker = null;
                                 $scope.markerOn = false;
+
+                                toaster.success("\u00c9xito", "El local se ha modificado correctamente.", 3000, 'trustedHtml');
                         },
                             function(){
                                 $scope.loadingSave = false;

@@ -25,7 +25,6 @@ namespace MenuDelDia.Entities
         [DisplayName("Nombre")]
         public string Name { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(MessagesResource))]
         [DisplayName("Descripción")]
         public string Description { get; set; }
 

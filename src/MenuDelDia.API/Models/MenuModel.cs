@@ -24,7 +24,6 @@ namespace MenuDelDia.API.Models
         [DisplayName("Nombre")]
         public string Name { get; set; }
 
-        [Required(AllowEmptyStrings = false)]
         [DisplayName("Descripción")]
         public string Description { get; set; }
 

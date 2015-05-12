@@ -286,6 +286,7 @@
     <Content Include="Content\twitter\lib\tmhUtilities.php" />
     <None Include="Properties\PublishProfiles\mddweb - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\mddweb - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\mddweb.pubxml" />
     <None Include="Scripts\jquery-1.10.2-vsdoc.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

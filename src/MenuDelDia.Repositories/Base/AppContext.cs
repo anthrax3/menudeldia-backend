@@ -36,6 +36,7 @@ namespace MenuDelDia.Repository
             modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
             modelBuilder.Entity<Location>().Property(t => t.Description).IsOptional();
             modelBuilder.Entity<Location>().Property(t => t.Identifier).IsOptional();
+            modelBuilder.Entity<Menu>().Property(t => t.Description).IsOptional();
         }
         public static AppContext Create()
         {

@@ -13,6 +13,7 @@
         $scope.nextStep = nextStep;
         $scope.saveCompany = saveCompany;
         $rootScope.isAuth = isAuth;
+        $scope.changeImage = changeImage;
         $scope.companySubmit = false;
         //initialize controller
         activate();
@@ -50,6 +51,10 @@
             $scope.uploader.queue[0].upload(); //Manage errors
         }
 
+        function changeImage() {
+            $scope.company.hasImage = false;
+        }
+
         function isCompanyValid(isValid) {
             if (isValid === false) {
                 $scope.companySubmit = true;
@@ -58,14 +63,14 @@
             }
 
             if ($scope.company.tags.length === 0) {
-                toaster.error("Ha ocurrido un error", "Debes seleccionar al menos una característica", 5000, 'trustedHtml');
+                toaster.error("Ha ocurrido un error", "Debes seleccionar al menos una caracter\u00edstica", 5000, 'trustedHtml');
                 return false;
             }
             if ($scope.company.tags.length > 3) {
-                toaster.error("Ha ocurrido un error", "Debes seleccionar como máximo 3 características", 5000, 'trustedHtml');
+                toaster.error("Ha ocurrido un error", "Debes seleccionar como máximo 3 caracter\u00edsticas", 5000, 'trustedHtml');
                 return false;
             }
-            if ($scope.uploader.queue.length == 0) {
+            if (!$scope.company.hasImage && $scope.uploader.queue.length == 0) {
                 toaster.error("Logo de tu empresa", "Debes subir un logo de tu empresa", 5000, 'trustedHtml');
                 return false;
             }
@@ -88,6 +93,7 @@
                         } else {
                             $scope.loadingSave = false;
                         }
+                        toaster.success("\u00c9xito", "La empresa se ha guardado correctamente.", 4000, 'trustedHtml');
                     },
                     function (result) {
                         helperService.processError(result, toaster);
@@ -111,6 +117,7 @@
                             $state.go('stores');
                             $scope.loadingNextStep = false;
                         } else {
+                            $state.go('stores');
                             $scope.loadingNextStep = false;
                         }
                     },
