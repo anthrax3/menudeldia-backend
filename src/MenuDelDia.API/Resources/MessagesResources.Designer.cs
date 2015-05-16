@@ -79,6 +79,69 @@ namespace MenuDelDia.API.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Viernes.
+        /// </summary>
+        public static string DayOfWeekFriday {
+            get {
+                return ResourceManager.GetString("DayOfWeekFriday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lunes.
+        /// </summary>
+        public static string DayOfWeekMonday {
+            get {
+                return ResourceManager.GetString("DayOfWeekMonday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sábado.
+        /// </summary>
+        public static string DayOfWeekSaturday {
+            get {
+                return ResourceManager.GetString("DayOfWeekSaturday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Domingo.
+        /// </summary>
+        public static string DayOfWeekSunday {
+            get {
+                return ResourceManager.GetString("DayOfWeekSunday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Jueves.
+        /// </summary>
+        public static string DayOfWeekThursday {
+            get {
+                return ResourceManager.GetString("DayOfWeekThursday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Martes.
+        /// </summary>
+        public static string DayOfWeekTuesday {
+            get {
+                return ResourceManager.GetString("DayOfWeekTuesday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Miércoles.
+        /// </summary>
+        public static string DayOfWeekWednesday {
+            get {
+                return ResourceManager.GetString("DayOfWeekWednesday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to En este momento no hemos podido procesar su solicitud. Por favor inténtelo nuevamente en unos instantes..
         /// </summary>
         public static string GeneralError {

@@ -83,8 +83,28 @@
             loadCompanyStores();
         }
 
-        function loadCompanyStores(){
+        function loadCompanyStores() {
+
             $scope.stores = stores;
+
+
+            _.each(stores, function(store) {
+
+                var tempDays = [
+                    { dayOfWeek: 1, name: 'Lunes', from: '09:00', to: '22:00', open: true },
+                    { dayOfWeek: 2, name: 'Martes', from: '09:00', to: '22:00', open: true },
+                    { dayOfWeek: 3, name: 'Miércoles', from: '09:00', to: '22:00', open: true },
+                    { dayOfWeek: 4, name: 'Jueves', from: '09:00', to: '22:00', open: true },
+                    { dayOfWeek: 5, name: 'Viernes', from: '09:00', to: '22:00', open: true },
+                    { dayOfWeek: 6, name: 'Sábado', from: '09:00', to: '22:00', open: true },
+                    { dayOfWeek: 0, name: 'Domingo', from: '09:00', to: '22:00', open: true }
+                ];
+
+
+            });
+
+
+
             $scope.showForm = false;
             if(!$scope.stores.length) {
                 $scope.showForm = true;
@@ -279,7 +299,7 @@
                 features: '',
                 delivery: true,
                 days : [
-                    { dayOfWeek:1, name: 'Lunes', from: '09:00', to:'22:00', open: true},
+                    { dayOfWeek: 1, name: 'Lunes', from: '09:00', to:'22:00', open: true},
                     { dayOfWeek: 2, name: 'Martes', from: '09:00', to: '22:00', open: true },
                     { dayOfWeek: 3, name: 'Miércoles', from: '09:00', to: '22:00', open: true },
                     { dayOfWeek: 4, name: 'Jueves', from: '09:00', to: '22:00', open: true },

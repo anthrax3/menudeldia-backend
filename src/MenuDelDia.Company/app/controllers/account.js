@@ -75,15 +75,13 @@
             $scope.loadingLogIn = true;
             authService.login({ userName: $scope.userLogIn.email, password: $scope.userLogIn.password })
                        .then(function (result) {
-                           debugger;
                            $state.go('company');
                            $scope.loadingLogIn = false;
                        },
                        function (result) {
-                           debugger;
                            $scope.logInSubmit = false;
                            $scope.loadingLogIn = false;
-                           helperService.processError(result, toaster);
+                           helperService.processError({ status: 403, data: result.error_description }, toaster);
                        });
         }
 

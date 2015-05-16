@@ -123,6 +123,27 @@
   <data name="CompanyNotExist" xml:space="preserve">
     <value>El restaurant indicado no se encuentra registrado en el sistema.</value>
   </data>
+  <data name="DayOfWeekFriday" xml:space="preserve">
+    <value>Viernes</value>
+  </data>
+  <data name="DayOfWeekMonday" xml:space="preserve">
+    <value>Lunes</value>
+  </data>
+  <data name="DayOfWeekSaturday" xml:space="preserve">
+    <value>Sábado</value>
+  </data>
+  <data name="DayOfWeekSunday" xml:space="preserve">
+    <value>Domingo</value>
+  </data>
+  <data name="DayOfWeekThursday" xml:space="preserve">
+    <value>Jueves</value>
+  </data>
+  <data name="DayOfWeekTuesday" xml:space="preserve">
+    <value>Martes</value>
+  </data>
+  <data name="DayOfWeekWednesday" xml:space="preserve">
+    <value>Miércoles</value>
+  </data>
   <data name="GeneralError" xml:space="preserve">
     <value>En este momento no hemos podido procesar su solicitud. Por favor inténtelo nuevamente en unos instantes.</value>
   </data>
