@@ -52,6 +52,9 @@ namespace MenuDelDia.Entities
 
         [DisplayName("Sucursales")]
         public virtual ICollection<Location> Locations { get; set; }
+
+        public bool IncludeBeverage { get; set; }
+        public bool IncludeDesert { get; set; }
     }
 
     [ComplexType]

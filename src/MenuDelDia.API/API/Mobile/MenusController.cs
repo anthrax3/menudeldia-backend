@@ -103,6 +103,8 @@ namespace MenuDelDia.API.API.Mobile
                             Date = m.SpecialDay.Date,
                             Recurrent = m.SpecialDay.Recurrent
                         },
+                        IncludeDesert = m.IncludeDesert,
+                        IncludeBeverage = m.IncludeBeverage,
                         NearestLocation = m.Locations
                                            .OrderBy(l => l.SpatialLocation.Distance(currentPosition))
                                            .Select(l => new LocationApiModel

@@ -16,5 +16,7 @@ namespace MenuDelDia.API.Models.Mobile
         public IList<TagApiModel> Tags { get; set; }
         public LocationApiModel NearestLocation { get; set; }
         public LogoApiModel Logo { get; set; }
+        public bool IncludeBeverage { get; set; }
+        public bool IncludeDesert { get; set; }
     }
 }

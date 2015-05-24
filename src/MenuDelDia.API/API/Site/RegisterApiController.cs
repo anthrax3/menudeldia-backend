@@ -141,8 +141,8 @@ namespace MenuDelDia.API.API.Site
                         Url = UnFormatUrl(restaurant.Url),
                         Cards = restaurant.Cards.Select(c => c.Id).ToList(),
                         Tags = restaurant.Tags.Select(t => t.Id).ToList(),
-                        LogoPath = !string.IsNullOrEmpty(restaurant.LogoPath) 
-                                        ? string.Format("{0}{1}", baseUrl, restaurant.LogoPath) 
+                        LogoPath = !string.IsNullOrEmpty(restaurant.LogoPath)
+                                        ? string.Format("{0}{1}", baseUrl, restaurant.LogoPath)
                                         : "",
                         HasImage = (string.IsNullOrEmpty(restaurant.LogoPath) == false)
                     };
@@ -528,6 +528,8 @@ namespace MenuDelDia.API.API.Site
                 Name = m.Name,
                 Description = m.Description,
                 Price = m.Cost,
+                IncludeBeverage = m.IncludeBeverage,
+                IncludeDesert = m.IncludeDesert,
             }));
             return menuForDay;
         };
@@ -556,7 +558,7 @@ namespace MenuDelDia.API.API.Site
                                                      .ToList();
 
                     if (locations.Any() == false)
-                       return Request.CreateResponse(HttpStatusCode.OK, new RestaurantMenuApiModel());
+                        return Request.CreateResponse(HttpStatusCode.OK, new RestaurantMenuApiModel());
 
                     var menus = locations.SelectMany(l => l.Menus).Distinct(new MenuComparer()).ToList();
                     var daysOfWeek = locations.SelectMany(od => od.OpenDays.Select(o => o.DayOfWeek)).ToList();
@@ -636,7 +638,9 @@ namespace MenuDelDia.API.API.Site
                                 {
                                     Date = null,
                                     Recurrent = false,
-                                }
+                                },
+                                IncludeBeverage = dailyMenu.IncludeBeverage,
+                                IncludeDesert = dailyMenu.IncludeDesert,
                             };
                             restaurant.Locations.ForEach(l => l.Menus.Add(menu));
                         }
@@ -653,62 +657,5 @@ namespace MenuDelDia.API.API.Site
                 }
             });
         }
-
-
-        [HttpPost]
-        [Authorize]
-        [Route("api/site/updatemenu")]
-        public Task<HttpResponseMessage> UpdateMenu([FromBody] RestaurantMenuApiModel model)
-        {
-            return Task<HttpResponseMessage>.Factory.StartNew(() =>
-            {
-                try
-                {
-                    if (ModelState.IsValid == false)
-                        return Request.CreateResponse(HttpStatusCode.BadRequest, MessagesResources.MenuInvalidData);
-
-                    var restaurant = CurrentAppContext.Restaurants
-                                                      .Include(r => r.Locations.Select(l => l.Menus))
-                                                      .FirstOrDefault(r => r.Id == CurrentRestaurantId);
-
-                    if (restaurant == null)
-                        return Request.CreateResponse(HttpStatusCode.BadRequest, MessagesResources.CompanyNotExist);
-
-
-                    foreach (var location in restaurant.Locations)
-                    {
-                        location.Menus.ToList().ForEach(m => location.Menus.Remove(m));
-                    }
-
-                    foreach (var menuModel in model.Menus)
-                    {
-                        foreach (var dailyMenu in menuModel.Menus)
-                        {
-                            var menu = new Menu
-                            {
-                                Active = true,
-                                Id = Guid.NewGuid(),
-                                Name = dailyMenu.Name,
-                                Description = dailyMenu.Description,
-                                Cost = dailyMenu.Price,
-                                MenuDays = new MenuDays { Monday = true }
-                            };
-
-                            restaurant.Locations.ForEach(l => l.Menus.Add(menu));
-                        }
-                    }
-
-                    CurrentAppContext.SaveChanges();
-
-                    return Request.CreateResponse(HttpStatusCode.OK, MessagesResources.GeneralSaveSucces);
-                }
-                catch (Exception exception)
-                {
-                    ErrorLog.GetDefault(HttpContext.Current).Log(new Error(exception));
-                    return Request.CreateResponse(HttpStatusCode.BadRequest);
-                }
-            });
-        }
-
     }
 }

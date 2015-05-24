@@ -9,9 +9,8 @@
 
     function menuService($q, $http, appSettings) {
         var service = {
-            addMenu:addMenu,
-            updateMenu:updateMenu,
-            menus:menus
+            saveMenu: saveMenu,
+            menus: menus
         };
 
         return service;
@@ -27,22 +26,11 @@
             return deferred.promise;
         }
 
-        function addMenu(menu) {
+        function saveMenu(menu) {
             var deferred = $q.defer();
 
             //call webapi service
             $http.post(appSettings.url + 'api/site/menu', menu)
-                .success(function (data, status, headers, config) { deferred.resolve(data); })
-                .error(function (data, status, headers, config) { deferred.reject({ data: data, status: status }); });
-
-            return deferred.promise;
-        }
-
-        function updateMenu(menu) {
-            var deferred = $q.defer();
-
-            //call webapi service
-            $http.post(appSettings.url + 'api/site/updatemenu', menu)
                 .success(function (data, status, headers, config) { deferred.resolve(data); })
                 .error(function (data, status, headers, config) { deferred.reject({ data: data, status: status }); });
 

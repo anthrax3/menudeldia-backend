@@ -1,23 +1,25 @@
 <div class="menu-page well" ng-repeat="day in week" ng-if="day.isDayOpen">
-<div class="row">
-    <div class="col-md-12">
-        <h4>{{day.name}}</h4>
-    </div>
-</div>
-<div class="row menu-container" ng-repeat="menu in day.menus">
-    <div class="col-md-4">
-        <input type="text" class="form-control input-lg" placeholder="Menu" ng-model="menu.name" maxlength="60">
-    </div>
-    <div class="col-md-2">
-        <div class="input-group">
-            <div class="input-group-addon">$</div>
-            <input type="text" class="form-control input-lg" placeholder="Precio" ng-model="menu.price">
+    <div class="row">
+        <div class="col-md-12">
+            <h4>{{day.name}}</h4>
         </div>
     </div>
-    <div class="col-md-6">
-        <input type="text" class="form-control input-lg" placeholder="Descripción" ng-model="menu.description">
+    <div class="row menu-container" ng-repeat="menu in day.menus">
+        <div class="col-md-4">
+            <input type="text" class="form-control input-lg" placeholder="Menu" ng-model="menu.name" maxlength="60">
+            <label><input type="checkbox" class="" ng-model="menu.includeBeverage"> Incluye bebida</label>
+            <label><input type="checkbox" class="" ng-model="menu.includeDesert"> Incluye postre</label>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group">
+                <div class="input-group-addon">$</div>
+                <input type="text" class="form-control input-lg" placeholder="Precio" ng-model="menu.price">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <input type="text" class="form-control input-lg" placeholder="Descripción" ng-model="menu.description">
+        </div>
     </div>
-</div>
 </div>
 <div class="row button-container">
     <div class="col-md-6">

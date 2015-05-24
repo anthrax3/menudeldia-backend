@@ -83,6 +83,10 @@
     <Compile Include="Migrations\201505100601357_menu_description_not_required.Designer.cs">
       <DependentUpon>201505100601357_menu_description_not_required.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201505242208580_script_combo_options.cs" />
+    <Compile Include="Migrations\201505242208580_script_combo_options.Designer.cs">
+      <DependentUpon>201505242208580_script_combo_options.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -108,6 +112,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201505100601357_menu_description_not_required.resx">
       <DependentUpon>201505100601357_menu_description_not_required.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505242208580_script_combo_options.resx">
+      <DependentUpon>201505242208580_script_combo_options.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

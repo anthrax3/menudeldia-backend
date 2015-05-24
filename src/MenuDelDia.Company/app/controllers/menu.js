@@ -35,14 +35,21 @@
             var resultArray = [];
 
             _.each(menusTemplate, function (item) {
-                debugger;
                 var menusFromDay = _.where(restaurantMenus.menus, { dayOfWeek: item.dayOfWeek });
                 if (menusFromDay.length) {
                     var menuFromDay = menusFromDay[0];
                     var menusForDay = menuFromDay.menus;
                     var cit = 3 - menuFromDay.menus.length;
 
-                    for (var i = 0; i < cit; i++) { menusForDay.push({ name: '', price: 0, description: '' }); }
+                    for (var i = 0; i < cit; i++) {
+                        menusForDay.push({
+                            name: '',
+                            price: 0,
+                            description: '',
+                            includeBeverage: false,
+                            includeDesert: false,
+                        });
+                    }
 
                     resultArray.push({
                         dayOfWeek: item.dayOfWeek,
@@ -58,19 +65,16 @@
 
         function save() {
             $scope.loadingSave = true;
-            menuService.addMenu(
-                {
-                    menus: $scope.week
-                }).then(
-                function () {
-                    $scope.loadingSave = false;
-                    toaster.success("\u00c9xito", "El menu\u00fa se ha guardado correctamente.", 4000, 'trustedHtml');
-                });
-
-
-            $timeout(function () {
-                $scope.loadingSave = false;
-            }, 3000)
+            menuService.saveMenu({ menus: $scope.week })
+                .then(
+                    function () {
+                        $scope.loadingSave = false;
+                        toaster.success("\u00c9xito", "El menu\u00fa se ha guardado correctamente.", 4000, 'trustedHtml');
+                    },
+                    function () {
+                        $scope.loadingSave = false;
+                        toaster.success("Error", "Ha ocurrido un error. Intente nuevamente en unos instantes.", 4000, 'trustedHtml');
+                    });
         }
 
         function isAuth() {
