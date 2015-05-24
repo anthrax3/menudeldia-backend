@@ -613,8 +613,7 @@ namespace MenuDelDia.API.API.Site
 
                     foreach (var menuModel in model.Menus.Where(m => m.IsDayOpen))
                     {
-                        foreach (var dailyMenu in menuModel.Menus.Where(dm => string.IsNullOrEmpty(dm.Name) == false &&
-                                                                              string.IsNullOrEmpty(dm.Description) == false))
+                        foreach (var dailyMenu in menuModel.Menus.Where(dm => string.IsNullOrEmpty(dm.Name) == false))
                         {
                             var menu = new Menu
                             {
