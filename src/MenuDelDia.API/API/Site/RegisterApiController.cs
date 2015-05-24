@@ -550,8 +550,8 @@ namespace MenuDelDia.API.API.Site
                                                      .AsNoTracking()
                                                      .ToList();
 
-                    if (locations.Any() == false || locations.All(l => l.Menus.Any()) == false)
-                        return Request.CreateResponse(HttpStatusCode.OK, new RestaurantMenuApiModel());
+                    if (locations.Any() == false)
+                       return Request.CreateResponse(HttpStatusCode.OK, new RestaurantMenuApiModel());
 
                     var menus = locations.SelectMany(l => l.Menus).Distinct(new MenuComparer()).ToList();
                     var daysOfWeek = locations.SelectMany(od => od.OpenDays.Select(o => o.DayOfWeek)).ToList();

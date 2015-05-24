@@ -29,13 +29,13 @@
                 { dayOfWeek: 4, name: "Jueves" },
                 { dayOfWeek: 5, name: "Viernes" },
                 { dayOfWeek: 6, name: "S\u00e1bado" },
-                { dayOfWeek: 7, name: "Domingo" }
+                { dayOfWeek: 0, name: "Domingo" }
             ];
 
             var resultArray = [];
 
             _.each(menusTemplate, function (item) {
-
+                debugger;
                 var menusFromDay = _.where(restaurantMenus.menus, { dayOfWeek: item.dayOfWeek });
                 if (menusFromDay.length) {
                     var menuFromDay = menusFromDay[0];
