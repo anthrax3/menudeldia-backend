@@ -13,6 +13,8 @@ using System.Web.Http;
 using MenuDelDia.API.Helpers;
 using MenuDelDia.API.Models.Mobile;
 using MenuDelDia.Repository;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace MenuDelDia.API.API.Mobile
 {
@@ -145,6 +147,11 @@ namespace MenuDelDia.API.API.Mobile
                         }
                     }).ToList();
 
+                var connectionString = ConfigurationManager.AppSettings["StorageConnectionString"];
+                var storageAccount = CloudStorageAccount.Parse(connectionString);
+                CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+                CloudBlobContainer container = blobClient.GetContainerReference("restaurantimages");
+                container.CreateIfNotExists();
 
                 foreach (var menu in menus)
                 {
@@ -154,12 +161,26 @@ namespace MenuDelDia.API.API.Mobile
                         var logoInfo = logos.FirstOrDefault(l => l.Id == location.RestaurantId);
                         if (logoInfo != null && string.IsNullOrEmpty(logoInfo.logo.LogoPath) == false)
                         {
-                            var path = Path.Combine(HttpContext.Current.Server.MapPath(ConfigurationManager.AppSettings["FolderLogos"]), string.Format("{0}", logoInfo.logo.LogoName));
-                            var file = new FileInfo(path);
-                            if (file.Exists)
+                            CloudBlockBlob blockBlob = container.GetBlockBlobReference(logoInfo.logo.LogoPath);
+                            if (blockBlob.Exists())
                             {
-                                logoInfo.logo.LogoBase64 = StringHelper.EncodeToBase64(file.FullName);
-                                logoInfo.logo.LogoExtension = logoInfo.logo.LogoExtension.Replace(".", "");
+                                blockBlob.FetchAttributes();
+                                long fileByteLength = blockBlob.Properties.Length;
+                                Byte[] myByteArray = new Byte[fileByteLength];
+                                blockBlob.DownloadToByteArray(myByteArray, 0);
+
+                                string base64String;
+                                try
+                                {
+                                    base64String = Convert.ToBase64String(myByteArray, 0, myByteArray.Length);
+                                }
+                                catch
+                                {
+                                    base64String = string.Empty;
+                                }
+
+                                logoInfo.logo.LogoBase64 = base64String;
+                                logoInfo.logo.LogoExtension = logoInfo.logo.LogoExtension;
                             }
                         }
                         if (logoInfo != null)

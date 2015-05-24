@@ -15,6 +15,8 @@ using MenuDelDia.API.Models.Mobile;
 using MenuDelDia.API.Resources;
 using MenuDelDia.Entities.Enums;
 using MenuDelDia.Repository;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace MenuDelDia.API.API.Mobile
 {
@@ -38,8 +40,7 @@ namespace MenuDelDia.API.API.Mobile
                 db.Configuration.AutoDetectChangesEnabled = false;
                 db.Configuration.LazyLoadingEnabled = false;
                 db.Configuration.ProxyCreationEnabled = false;
-
-
+                
                 var restaurants = db.Restaurants
                     .Include(r => r.Locations)
                     .Include(r => r.Cards)
@@ -89,16 +90,38 @@ namespace MenuDelDia.API.API.Mobile
                     }).ToList();
 
 
+                var connectionString = ConfigurationManager.AppSettings["StorageConnectionString"];
+                var storageAccount = CloudStorageAccount.Parse(connectionString);
+                CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+                CloudBlobContainer container = blobClient.GetContainerReference("restaurantimages");
+                container.CreateIfNotExists();
+
                 restaurants.ForEach(r =>
                 {
                     if (string.IsNullOrEmpty(r.LogoPath) == false)
                     {
-                        var path = Path.Combine(HttpContext.Current.Server.MapPath(ConfigurationManager.AppSettings["FolderLogos"]), string.Format("{0}", r.LogoName));
-                        var file = new FileInfo(path);
-                        if (file.Exists)
+
+                        // Retrieve reference to a blob named "myblob".
+                        CloudBlockBlob blockBlob = container.GetBlockBlobReference(r.LogoPath);
+                        if (blockBlob.Exists())
                         {
-                            r.LogoBase64 = StringHelper.EncodeToBase64(file.FullName);
-                            r.LogoExtension = r.LogoExtension.Replace(".", "");
+                            blockBlob.FetchAttributes();
+                            long fileByteLength = blockBlob.Properties.Length;
+                            Byte[] myByteArray = new Byte[fileByteLength];
+                            blockBlob.DownloadToByteArray(myByteArray, 0);
+
+                            string base64String;
+                            try
+                            {
+                                base64String = Convert.ToBase64String(myByteArray, 0, myByteArray.Length);
+                            }
+                            catch
+                            {
+                                base64String = string.Empty;
+                            }
+
+                            r.LogoBase64 = base64String;
+                            r.LogoExtension = r.LogoExtension;
                         }
                     }
                 });
@@ -112,7 +135,7 @@ namespace MenuDelDia.API.API.Mobile
             {
                 return data.Skip(filter.Start.Value * filter.Size.Value)
                            .Take(filter.Size.Value)
-                           .OrderBy(d=>d.Name)
+                           .OrderBy(d => d.Name)
                            .ToList();
             }
 
@@ -139,10 +162,10 @@ namespace MenuDelDia.API.API.Mobile
 
             if (latitude.HasValue && longitude.HasValue)
             {
-                currentPosition = CreatePoint(latitude.Value, longitude.Value);    
+                currentPosition = CreatePoint(latitude.Value, longitude.Value);
             }
-            
-            
+
+
             using (var db = new AppContext())
             {
                 db.Configuration.AutoDetectChangesEnabled = false;
@@ -153,7 +176,7 @@ namespace MenuDelDia.API.API.Mobile
                     .Include(l => l.Restaurant)
                     .Where(l => id.HasValue == false || l.Id == id.Value);
 
-                if(currentPosition != null)
+                if (currentPosition != null)
                     stores = stores.OrderBy(l => l.SpatialLocation.Distance(currentPosition));
 
                 var storeList = stores.Select(l => new LocationApiModel
@@ -182,24 +205,47 @@ namespace MenuDelDia.API.API.Mobile
                     })
                     .ToList();
 
+
+
+                var connectionString = ConfigurationManager.AppSettings["StorageConnectionString"];
+                var storageAccount = CloudStorageAccount.Parse(connectionString);
+                CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+                CloudBlobContainer container = blobClient.GetContainerReference("restaurantimages");
+                container.CreateIfNotExists();
+
                 storeList.ForEach(r =>
                 {
                     if (string.IsNullOrEmpty(r.LogoPath) == false)
                     {
-                        var path = Path.Combine(HttpContext.Current.Server.MapPath(ConfigurationManager.AppSettings["FolderLogos"]), string.Format("{0}", r.LogoName));
-                        var file = new FileInfo(path);
-                        if (file.Exists)
+                        CloudBlockBlob blockBlob = container.GetBlockBlobReference(r.LogoPath);
+                        if (blockBlob.Exists())
                         {
-                            r.LogoBase64 = StringHelper.EncodeToBase64(file.FullName);
-                            r.LogoExtension = r.LogoExtension.Replace(".", "");
+                            blockBlob.FetchAttributes();
+                            long fileByteLength = blockBlob.Properties.Length;
+                            Byte[] myByteArray = new Byte[fileByteLength];
+                            blockBlob.DownloadToByteArray(myByteArray, 0);
+
+                            string base64String;
+                            try
+                            {
+                                base64String = Convert.ToBase64String(myByteArray, 0, myByteArray.Length);
+                            }
+                            catch
+                            {
+                                base64String = string.Empty;
+                            }
+
+                            r.LogoBase64 = base64String;
+                            r.LogoExtension = r.LogoExtension;
                         }
                     }
                     r.Tags = r.Tags.Count > 1 ? r.Tags.Take(2).ToList() : r.Tags;
                 });
+                
                 return storeList;
             }
         }
- 
+
         #endregion
 
         [HttpGet]
@@ -235,7 +281,7 @@ namespace MenuDelDia.API.API.Mobile
         [Route("api/restaurants/stores/{latitude:double}/{longitude:double}/{start:int}/{size:int}")]
         public HttpResponseMessage GetStores(int start, int size, double? latitude, double? longitude)
         {
-            var stores = FilterStores(QueryLocations(latitude, longitude), new StoreFilter { Start = start, Size = size});
+            var stores = FilterStores(QueryLocations(latitude, longitude), new StoreFilter { Start = start, Size = size });
             return Request.CreateResponse(HttpStatusCode.OK, stores);
         }
     }

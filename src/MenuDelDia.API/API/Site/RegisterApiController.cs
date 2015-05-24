@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -12,6 +13,8 @@ using MenuDelDia.API.Models.Site;
 using MenuDelDia.API.Resources;
 using MenuDelDia.Entities;
 using Microsoft.AspNet.Identity;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
 using WebGrease.Css.Extensions;
 using LocationApiModel = MenuDelDia.API.Models.Site.LocationApiModel;
 
@@ -138,7 +141,9 @@ namespace MenuDelDia.API.API.Site
                         Url = UnFormatUrl(restaurant.Url),
                         Cards = restaurant.Cards.Select(c => c.Id).ToList(),
                         Tags = restaurant.Tags.Select(t => t.Id).ToList(),
-                        LogoPath = !string.IsNullOrEmpty(restaurant.LogoPath) ? string.Format("{0}{1}", baseUrl, restaurant.LogoPath.Substring(0, restaurant.LogoPath.LastIndexOf('.'))) : "",
+                        LogoPath = !string.IsNullOrEmpty(restaurant.LogoPath) 
+                                        ? string.Format("{0}{1}", baseUrl, restaurant.LogoPath) 
+                                        : "",
                         HasImage = (string.IsNullOrEmpty(restaurant.LogoPath) == false)
                     };
                     return Request.CreateResponse(HttpStatusCode.OK, registerApiModel);
@@ -705,5 +710,6 @@ namespace MenuDelDia.API.API.Site
                 }
             });
         }
+
     }
 }
